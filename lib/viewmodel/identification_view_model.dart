@@ -51,7 +51,7 @@ class IdentificationViewModel extends GetxController {
   }
 
   // Valida todo o formulário ao pressionar o botão de submit
-  void validateForm() {
+  bool validateForm() {
     hasSubmitted.value = true; // Ativa a validação dos campos
 
     validateName();
@@ -59,6 +59,9 @@ class IdentificationViewModel extends GetxController {
 
     if (nameError.value == null && emailError.value == null) {
       submit();
+      return true;
+    } else {
+      return false;
     }
   }
 
