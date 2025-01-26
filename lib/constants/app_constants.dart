@@ -23,6 +23,18 @@ class AppStrings {
       'Termos e Condições e Política de Privacidade.';
   static const String identificationHeaderMessage =
       'Para começar, por favor informe seu nome e e-mail.';
+
+  static const agree = "Concordo";
+  static const totallyAgree = "Concordo totalmente";
+  static const neutral = "Neutro";
+  static const disagree = "Discordo";
+  static const totallyDisagree = "Discordo totalmente";
+
+  static const agreeDescription = "Expressa um nível moderado de concordância.";
+  static const totallyAgreeDescription = "Expressa um nível completo de concordância, sem ressalvas.";
+  static const neutralDescription = "Expressa uma posição de neutralidade, sem concordar ou discordar.";
+  static const disagreeDescription = "Expressa um nível moderado de discordância.";
+  static const totallyDisagreeDescription = "Expressa um nível completo de discordância, sem ressalvas.";
 }
 
 class AppColors {

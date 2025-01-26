@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rumacao_front/constants/app_constants.dart';
 import 'package:rumacao_front/view/global/footer.dart';
-import 'package:rumacao_front/view/global/identification_header.dart';
+import 'package:rumacao_front/view/global/base_interaction_screen_header.dart';
 
 class MainInteractionScreen extends StatelessWidget {
   final String headerText;

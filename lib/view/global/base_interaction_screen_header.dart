@@ -1,4 +1,4 @@
-// lib/view/identification/identification_header.dart
+// lib/view/identification/base_interaction_screen_header.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rumacao_front/constants/app_constants.dart';
