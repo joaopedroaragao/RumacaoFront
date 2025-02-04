@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rumacao_front/constants/app_constants.dart';
 import 'package:rumacao_front/view/global/main_interaction_screen.dart';
 import 'package:rumacao_front/view/global/arc_slider.dart';
-import 'package:rumacao_front/view/questions/question_card.dart';
+import 'package:rumacao_front/view/questions/question_section.dart';
 import 'package:rumacao_front/view/questions/questions_progress_bar.dart';
 
 class QuestionPage extends StatefulWidget {
@@ -31,7 +31,7 @@ class _QuestionPageState extends State<QuestionPage> {
         const Spacer(),
         Expanded(
           flex: 10,
-          child: QuestionCard()
+          child: QuestionSection()
         ),
         const Spacer(),
       ],
