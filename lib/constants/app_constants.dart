@@ -42,11 +42,13 @@ class AppStrings {
   static const String termsAndConditions = 'Termos e Condições';
   static const String privacyPolicy = 'Política de Privacidade';
   static const String termsDisclaimerPrefix =
-      'Ao confirmar você concorda com os nossos ';
+      'Ao fazer o Login, você concorda com os nossos ';
   static const String termsAndConditionsAndPrivacyPolicy =
       'Termos e Condições e Política de Privacidade.';
   static const String identificationHeaderMessage =
       'Para começar, por favor informe seu nome e e-mail.';
+  static const String newsletterConsentMessage =
+      "Você aceita coisar a newsletter?";
 
   static const agree = "Concordo";
   static const totallyAgree = "Concordo totalmente";

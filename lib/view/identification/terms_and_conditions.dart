@@ -9,30 +9,28 @@ class TermsAndConditions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: RichText(
-        textAlign: TextAlign.center,
-        text: TextSpan(
-          text: AppStrings.termsDisclaimerPrefix,
-          style: AppStyles.termsText,
-          children: [
-            WidgetSpan(
-              child: MouseRegion(
-                cursor: SystemMouseCursors.click, // Cursor de clique
-                child: GestureDetector(
-                  onTap: () {
-                    // Redireciona para a página de Termos e Condições e Política de Privacidade
-                    // Get.to(() => const TermsPage());
-                  },
-                  child: Text(
-                    AppStrings.termsAndConditionsAndPrivacyPolicy,
-                    style: AppStyles.linkText, // Estilo do texto clicável
-                  ),
+    return RichText(
+      textAlign: TextAlign.start,
+      text: TextSpan(
+        text: AppStrings.termsDisclaimerPrefix,
+        style: AppStyles.termsText,
+        children: [
+          WidgetSpan(
+            child: MouseRegion(
+              cursor: SystemMouseCursors.click, // Cursor de clique
+              child: GestureDetector(
+                onTap: () {
+                  // Redireciona para a página de Termos e Condições e Política de Privacidade
+                  // Get.to(() => const TermsPage());
+                },
+                child: Text(
+                  AppStrings.termsAndConditionsAndPrivacyPolicy,
+                  style: AppStyles.linkText, // Estilo do texto clicável
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
