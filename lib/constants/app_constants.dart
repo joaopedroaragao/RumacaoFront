@@ -2,7 +2,31 @@
 import 'package:flutter/material.dart';
 import 'font_family.dart';
 
+class MascoteImages {
+  final String neutral1 = "assets/images/mascote/neutral/1.png";
+  final String neutral2 = "assets/images/mascote/neutral/2.png";
+  final String neutral3 = "assets/images/mascote/neutral/3.png";
+
+  final String partiallyAgree1 = "assets/images/mascote/partially_agree/1.png";
+  final String partiallyAgree2 = "assets/images/mascote/partially_agree/2.png";
+  final String partiallyAgree3 = "assets/images/mascote/partially_agree/3.png";
+
+  final String partiallyDisagree1 = "assets/images/mascote/partially_disagree/1.png";
+  final String partiallyDisagree2 = "assets/images/mascote/partially_disagree/2.png";
+  final String partiallyDisagree3 = "assets/images/mascote/partially_disagree/3.png";
+
+  final String totallyAgree1 = "assets/images/mascote/totally_agree/1.png";
+  final String totallyAgree2 = "assets/images/mascote/totally_agree/2.png";
+  final String totallyAgree3 = "assets/images/mascote/totally_agree/3.png";
+
+  final String totallyDisagree1 = "assets/images/mascote/totally_disagree/1.png";
+  final String totallyDisagree2 = "assets/images/mascote/totally_disagree/2.png";
+  final String totallyDisagree3 = "assets/images/mascote/totally_disagree/3.png";
+}
+
 class AppStrings {
+  static final MascoteImages mascoteImages = MascoteImages();
+
   static const String headerLogo = "assets/images/logo_header.png";
   static const String footerLogo = "assets/images/logo_footer.png";
   static const String instagramIcon = "assets/images/instagram_icon.svg";
@@ -58,7 +82,7 @@ class AppStyles {
 
   static final TextStyle startButtonText = TextStyle(
     color: AppColors.white,
-    fontFamily: FontFamily.dynamicSchematic.name,
+    fontFamily: FontFamily.inter.name,
   );
 
   static final TextStyle footerTitle = TextStyle(

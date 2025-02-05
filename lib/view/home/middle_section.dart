@@ -1,7 +1,9 @@
 // widgets/middle_section.dart
 import 'package:flutter/material.dart';
+import 'package:rumacao_front/view/identification/identification_page.dart';
 import 'description_text.dart';
-import 'start_button.dart';
+import '../global/action_button.dart';
+import 'package:get/get.dart';
 
 class MiddleSection extends StatelessWidget {
   const MiddleSection({Key? key}) : super(key: key);
@@ -12,10 +14,14 @@ class MiddleSection extends StatelessWidget {
       flex: 2,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
-          DescriptionText(),
-          SizedBox(height: 20),
-          StartButton(),
+        children: [
+          const DescriptionText(),
+          const SizedBox(height: 20),
+          ActionButton(
+            onPressed: () {
+              Get.to(() => const IdentificationPage());
+            },
+          ),
         ],
       ),
     );

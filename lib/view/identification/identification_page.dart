@@ -5,7 +5,7 @@ import 'package:rumacao_front/constants/app_constants.dart';
 import 'package:rumacao_front/view/global/main_interaction_screen.dart';
 import 'package:rumacao_front/view/identification/identification_form.dart';
 import 'package:rumacao_front/view/identification/terms_and_conditions.dart';
-import 'package:rumacao_front/view/questions/question_page.dart';
+import 'package:rumacao_front/view/questions/questions_page.dart';
 import 'package:rumacao_front/viewmodel/identification_view_model.dart';
 
 class IdentificationPage extends StatelessWidget {
@@ -27,7 +27,7 @@ class IdentificationPage extends StatelessWidget {
         ElevatedButton(
           onPressed: () {
             if (viewModel.validateForm()) {
-              Get.to(() => const QuestionPage());
+              Get.to(() => QuestionsPage());
             }
           },
           style: ElevatedButton.styleFrom(
