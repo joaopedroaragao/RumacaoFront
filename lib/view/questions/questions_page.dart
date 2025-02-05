@@ -11,6 +11,7 @@ import 'package:rumacao_front/view/questions/option_selector.dart';
 import 'package:rumacao_front/view/questions/questions_carousel.dart';
 import 'package:rumacao_front/view/questions/questions_progress_bar.dart';
 import 'package:rumacao_front/viewmodel/questions_view_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class QuestionsPage extends StatelessWidget {
   final answerOptions = [
@@ -31,7 +32,7 @@ class QuestionsPage extends StatelessWidget {
 
   QuestionsPage({Key? key}) : super(key: key);
 
-  // Mapeia um AnswerOption para um OptionButton (definindo os aspectos visuais)
+  // Mapeia um AnswerOption para um OptionButton (aspectos visuais)
   OptionButton buildOptionButton(AnswerOption option) {
     switch (option.id) {
       case 0:
@@ -91,7 +92,7 @@ class QuestionsPage extends StatelessWidget {
     }
   }
 
-  /// Card azul de pré-quiz (ocupa a maior parte da tela, mantendo o Footer visível)
+  /// Card azul pré-quiz (exibe o nome do usuário vindo do QuestionViewModel)
   Widget _preQuizCard(BuildContext context, QuestionViewModel viewModel) {
     final double dialogWidth = MediaQuery.of(context).size.width * 0.8;
     final double dialogHeight = MediaQuery.of(context).size.height * 0.5;
@@ -106,13 +107,13 @@ class QuestionsPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Spacer(),
+            const Spacer(flex: 3),
             _icon(),
-            const SizedBox(height: 12),
-            _welcomeText(),
-            const SizedBox(height: 8),
-            _instructionText(),
             const Spacer(),
+            _welcomeText(),
+            const Spacer(),
+            _instructionText(),
+            const Spacer(flex: 2),
             Obx(() {
               if (viewModel.isLoading.value) {
                 return const CircularProgressIndicator(
@@ -120,16 +121,16 @@ class QuestionsPage extends StatelessWidget {
                 );
               } else {
                 return ActionButton(
-                  height: 40,
-                  width: 120,
+                  height: 51,
+                  width: 159,
                   text: "INICIAR",
                   onPressed: () {
-                    viewModel.startQuiz(); // Remove o card pré-quiz
+                    viewModel.startQuiz();
                   },
                 );
               }
             }),
-            const SizedBox(height: 16),
+            const Spacer(flex: 2)
           ],
         ),
       ),
@@ -137,26 +138,29 @@ class QuestionsPage extends StatelessWidget {
   }
 
   Widget _icon() {
-    return const Text(
-      "R",
-      style: TextStyle(
-        fontSize: 48,
-        fontWeight: FontWeight.bold,
-        color: Colors.white,
-      ),
+    return Image.asset(
+      AppStrings.rumacaoIcon,
+      height: 86,
+      width: 67,
     );
   }
 
+  /// _welcomeText_ utiliza o valor do nome vindo do view model.
   Widget _welcomeText() {
-    return Text(
-      "Parabéns, (Nome)!",
-      style: TextStyle(
-        fontFamily: FontFamily.inter.name,
-        fontSize: 18,
-        fontWeight: FontWeight.w600,
-        color: Colors.white,
-      ),
-    );
+    return Obx(() {
+      final name = Get.find<QuestionViewModel>().userName.value.isNotEmpty
+          ? Get.find<QuestionViewModel>().userName.value
+          : "(Nome)";
+      return Text(
+        "Parabéns, $name!",
+        style: TextStyle(
+          fontFamily: FontFamily.inter.name,
+          fontSize: 18,
+          fontWeight: FontWeight.w700,
+          color: Colors.white,
+        ),
+      );
+    });
   }
 
   Widget _instructionText() {
@@ -165,19 +169,17 @@ class QuestionsPage extends StatelessWidget {
       textAlign: TextAlign.center,
       style: TextStyle(
         fontFamily: FontFamily.inter.name,
-        fontSize: 14,
+        fontSize: 15,
         fontWeight: FontWeight.w400,
         color: Colors.white,
       ),
     );
   }
 
+  /// Container com altura fixa para o texto da pergunta.
   Widget _questionText(QuestionViewModel viewModel) {
-    // Define uma altura fixa (por exemplo, 80 pixels) para o container da pergunta.
     const double fixedHeight = 80;
-    if (viewModel.questions.isEmpty) {
-      return const SizedBox(height: fixedHeight);
-    }
+    if (viewModel.questions.isEmpty) return const SizedBox(height: fixedHeight);
     final currentQuestion = viewModel.questions[viewModel.currentQuestionIndex.value];
     return Container(
       height: fixedHeight,
@@ -191,7 +193,7 @@ class QuestionsPage extends StatelessWidget {
           fontSize: 18,
           fontWeight: FontWeight.w500,
         ),
-        maxLines: 3, // Limita o número de linhas, se desejar.
+        maxLines: 3,
         overflow: TextOverflow.ellipsis,
       ),
     );
@@ -217,7 +219,7 @@ class QuestionsPage extends StatelessWidget {
                   child: Image.asset(
                     viewModel.currentAnswer(index) != null
                         ? images[viewModel.currentAnswer(index)!]
-                        : images[2],
+                        : AppStrings.mascoteImages.neutral1,
                     width: 300,
                     height: 300,
                     fit: BoxFit.cover,
@@ -240,8 +242,7 @@ class QuestionsPage extends StatelessWidget {
             final selectedOptionIndex = answerOptions.indexWhere(
                   (option) => option.id == selectedAnswerId,
             );
-            final int? selectedIndex =
-            selectedOptionIndex >= 0 ? selectedOptionIndex : null;
+            final int? selectedIndex = selectedOptionIndex >= 0 ? selectedOptionIndex : null;
             return OptionSelector(
               spacing: 32,
               options: answerOptions.map(buildOptionButton).toList(),
@@ -254,7 +255,7 @@ class QuestionsPage extends StatelessWidget {
           }),
         ),
         const Spacer(),
-        // Botão FINALIZAR sempre presente (espaço mantido), visível somente se todas as questões tiverem resposta.
+        // Botão FINALIZAR sempre presente, visível somente se todas as questões tiverem resposta.
         Obx(() {
           final bool allAnswered = viewModel.questions.isNotEmpty &&
               viewModel.selectedAnswers.length == viewModel.questions.length;
@@ -264,12 +265,11 @@ class QuestionsPage extends StatelessWidget {
             maintainAnimation: true,
             maintainState: true,
             child: ActionButton(
-              height: 40,
-              width: 120,
+              height: 51,
+              width: 159,
               text: "FINALIZAR",
               onPressed: () {
-                // Ação final – por exemplo, navegue para a próxima página ou processe os resultados.
-                Get.to(() => const HomePage());
+                viewModel.submitResponses("cXNZNJc3HOu7N2faYqgo");
               },
             ),
           );
@@ -299,28 +299,43 @@ class QuestionsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final QuestionViewModel viewModel = Get.put(QuestionViewModel());
-    return Scaffold(
-      backgroundColor: AppColors.white,
-      appBar: AppBar(
-        backgroundColor: AppColors.white,
-        elevation: 0,
-        centerTitle: true,
-        title: Image.asset(AppStrings.headerLogo),
-        leading: Container(),
-      ),
-      // O body exibe um Column com o conteúdo principal (ou o card pré-quiz) e o Footer.
-      body: Obx(() {
-        return Column(
-          children: [
-            Expanded(
-              child: viewModel.showIntroCard.value
-                  ? _preQuizCard(context, viewModel)
-                  : _quizContent(context, viewModel),
+    return Obx(() {
+      return Stack(
+        children: [
+          Scaffold(
+            backgroundColor: AppColors.white,
+            appBar: AppBar(
+              backgroundColor: AppColors.white,
+              elevation: 0,
+              centerTitle: true,
+              title: Image.asset(AppStrings.headerLogo),
+              leading: Container(),
             ),
-            const Footer(),
-          ],
-        );
-      }),
-    );
+            body: Column(
+              children: [
+                Expanded(
+                  child: viewModel.showIntroCard.value
+                      ? _preQuizCard(context, viewModel)
+                      : _quizContent(context, viewModel),
+                ),
+                const Footer(),
+              ],
+            ),
+          ),
+          // Overlay de loading para bloquear a interação enquanto submete as respostas.
+          if (viewModel.isSubmittingResponses.value)
+            Positioned.fill(
+              child: Container(
+                color: Colors.black.withOpacity(0.5),
+                child: const Center(
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                  ),
+                ),
+              ),
+            ),
+        ],
+      );
+    });
   }
 }

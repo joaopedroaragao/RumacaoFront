@@ -4,6 +4,7 @@ import 'package:rumacao_front/constants/app_constants.dart';
 import 'package:rumacao_front/view/home/home_page.dart';
 import 'package:rumacao_front/view/identification/identification_page.dart';
 import 'package:rumacao_front/view/questions/questions_page.dart';
+import 'package:rumacao_front/view/results/results_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
         fontFamily: "Inter",
         useMaterial3: true,
       ),
-      home: const HomePage(),
+      home: const ResultsPage(responseId: "edIrpKyXN7OCFTZ8msqE"),
     );
   }
 }

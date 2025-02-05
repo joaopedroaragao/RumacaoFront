@@ -11,12 +11,9 @@ class IdentificationViewModel extends GetxController {
   var nameError = RxnString();
   var emailError = RxnString();
   var hasSubmitted = false.obs;
-
-  // Variáveis para os checkboxes:
   var acceptTerms = false.obs;
   var acceptNewsletter = false.obs;
-
-  var isSubmitting = false.obs; // Para mostrar o loading no botão
+  var isSubmitting = false.obs; // Estado para mostrar loading no botão
 
   void setName(String value) {
     name.value = value;
@@ -29,11 +26,13 @@ class IdentificationViewModel extends GetxController {
   }
 
   void validateName() {
-    nameError.value = name.value.isEmpty ? 'O campo de nome não pode estar vazio' : null;
+    nameError.value =
+    name.value.isEmpty ? 'O campo de nome não pode estar vazio' : null;
   }
 
   void validateEmail() {
-    emailError.value = isValidEmail(email.value) ? null : 'Formato de e-mail inválido';
+    emailError.value =
+    isValidEmail(email.value) ? null : 'Formato de e-mail inválido';
   }
 
   bool isValidEmail(String email) {
@@ -46,8 +45,7 @@ class IdentificationViewModel extends GetxController {
     validateName();
     validateEmail();
 
-    // Bloqueia o envio caso o usuário não aceite os termos
-    if (!acceptTerms.value) return false;
+    if (!acceptTerms.value) return false; // Se os termos não foram aceitos, retorna false
 
     if (nameError.value == null && emailError.value == null) {
       await submit();
@@ -56,7 +54,7 @@ class IdentificationViewModel extends GetxController {
     return false;
   }
 
-  /// Implementa o submit para enviar os dados para a API e salvar o userId no cache.
+  /// Envia os dados para a API e salva userId, name e email no cache.
   Future<void> submit() async {
     isSubmitting.value = true;
     try {
@@ -69,12 +67,14 @@ class IdentificationViewModel extends GetxController {
           "email": email.value,
         }),
       );
-      if (response.statusCode == 200 || response.statusCode == 201) {
+      if (response.statusCode >= 200 && response.statusCode < 300) {
         final jsonResponse = jsonDecode(response.body);
         final userId = jsonResponse["userId"];
-        // Salva o userId no cache (SharedPreferences)
+        // Salva os dados no cache
         final prefs = await SharedPreferences.getInstance();
-        prefs.setString("userId", userId);
+        await prefs.setString("userId", userId);
+        await prefs.setString("name", name.value);
+        await prefs.setString("email", email.value);
         print("Usuário identificado com userId: $userId");
       } else {
         print("Erro no submit: ${response.statusCode}");

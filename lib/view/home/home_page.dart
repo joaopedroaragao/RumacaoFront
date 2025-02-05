@@ -19,6 +19,7 @@ class HomePage extends StatelessWidget {
         backgroundColor: AppColors.white,
         elevation: 0,
         centerTitle: true,
+        leading: Container(),
         title: Image.asset(AppStrings.headerLogo),
       ),
       body: const Column(

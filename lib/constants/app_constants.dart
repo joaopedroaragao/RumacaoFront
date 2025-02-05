@@ -28,6 +28,7 @@ class AppStrings {
   static final MascoteImages mascoteImages = MascoteImages();
 
   static const String headerLogo = "assets/images/logo_header.png";
+  static const String rumacaoIcon = "assets/images/rumacao_icon.png";
   static const String footerLogo = "assets/images/logo_footer.png";
   static const String instagramIcon = "assets/images/instagram_icon.svg";
   static const String emailIcon = "assets/images/email_icon.svg";
@@ -129,5 +130,53 @@ class AppStyles {
     fontSize: 16,
     fontWeight: FontWeight.w600,
     fontFamily: FontFamily.inter.name,
+  );
+
+  static final TextStyle titleStyle = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.bold,
+    color: Colors.black,
+  );
+
+  static final TextStyle subtitleStyle = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
+    color: Colors.black54,
+  );
+
+  static final TextStyle resultTitleStyle = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.bold,
+    color: Color(0xFF327760),
+  );
+
+  static final TextStyle textStyle = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: Colors.black54,
+  );
+
+  static final TextStyle bodyText = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: Colors.black87,
+  );
+
+  static final TextStyle resultTextStyle = TextStyle(
+    fontSize: 22,
+    fontWeight: FontWeight.bold,
+    color: Color(0xFF327760),
+  );
+
+  static final TextStyle percentageTextStyle = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.bold,
+    color: Colors.black,
+  );
+
+  static final TextStyle percentageTitleStyle = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: Colors.black87,
   );
 }
