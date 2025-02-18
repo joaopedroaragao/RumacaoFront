@@ -13,7 +13,14 @@ import 'package:rumacao_front/view/questions/questions_progress_bar.dart';
 import 'package:rumacao_front/viewmodel/questions_view_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class QuestionsPage extends StatelessWidget {
+class QuestionsPage extends StatefulWidget {
+  const QuestionsPage({super.key});
+
+  @override
+  State<QuestionsPage> createState() => _QuestionsPageState();
+}
+
+class _QuestionsPageState extends State<QuestionsPage> {
   final answerOptions = [
     AnswerOption(id: 0, label: "Discordo"),
     AnswerOption(id: 1, label: ""),
@@ -29,8 +36,6 @@ class QuestionsPage extends StatelessWidget {
     AppStrings.mascoteImages.partiallyAgree3,
     AppStrings.mascoteImages.totallyAgree3,
   ];
-
-  QuestionsPage({Key? key}) : super(key: key);
 
   // Mapeia um AnswerOption para um OptionButton (aspectos visuais)
   OptionButton buildOptionButton(AnswerOption option) {
@@ -184,13 +189,13 @@ class QuestionsPage extends StatelessWidget {
     return Container(
       height: fixedHeight,
       alignment: Alignment.center,
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: EdgeInsets.symmetric(horizontal: Get.width / 8),
       child: Text(
         currentQuestion.text,
         textAlign: TextAlign.center,
         style: TextStyle(
           fontFamily: FontFamily.inter.name,
-          fontSize: 18,
+          fontSize: Get.height * 0.025,
           fontWeight: FontWeight.w500,
         ),
         maxLines: 3,
@@ -203,13 +208,14 @@ class QuestionsPage extends StatelessWidget {
   Widget _quizContent(BuildContext context, QuestionViewModel viewModel) {
     return Column(
       children: [
-        const SizedBox(height: 48),
+        const Spacer(),
         Obx(() => _questionText(viewModel)),
         const Spacer(),
         Expanded(
-          flex: 15,
-          child: QuestionsCarousel(
+          flex: 20,
+          child: Obx(() => QuestionsCarousel(
             length: viewModel.questions.length,
+            currentIndex: viewModel.currentQuestionIndex.value, // Adicionado
             itemBuilder: (context, index, realIndex) {
               return Obx(
                     () => Container(
@@ -230,7 +236,7 @@ class QuestionsPage extends StatelessWidget {
             onVisibilityChanged: (info, index) {
               viewModel.onItemVisibilityChanged(info, index);
             },
-          ),
+          )),
         ),
         const Spacer(),
         Expanded(
@@ -243,6 +249,7 @@ class QuestionsPage extends StatelessWidget {
                   (option) => option.id == selectedAnswerId,
             );
             final int? selectedIndex = selectedOptionIndex >= 0 ? selectedOptionIndex : null;
+
             return OptionSelector(
               spacing: 32,
               options: answerOptions.map(buildOptionButton).toList(),
@@ -250,6 +257,7 @@ class QuestionsPage extends StatelessWidget {
               onSelected: (optionIndex) {
                 final option = answerOptions[optionIndex];
                 viewModel.selectAnswer(option.id);
+                setState(() {});
               },
             );
           }),
@@ -318,7 +326,7 @@ class QuestionsPage extends StatelessWidget {
                       ? _preQuizCard(context, viewModel)
                       : _quizContent(context, viewModel),
                 ),
-                const Footer(),
+                // const Footer(),
               ],
             ),
           ),

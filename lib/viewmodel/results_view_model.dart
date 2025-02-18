@@ -9,10 +9,9 @@ class ResultsViewModel extends GetxController {
   ResultsViewModel({required this.responseId});
 
   var isLoading = true.obs;
-  var scoreData = {}.obs;
+  var scoreData = <String, dynamic>{}.obs;
   var error = RxnString();
 
-  /// Nome do usuário (carregado do cache)
   var userName = ''.obs;
 
   @override
@@ -27,15 +26,20 @@ class ResultsViewModel extends GetxController {
     userName.value = prefs.getString("name") ?? "(Nome)";
   }
 
-  /// Faz a requisição GET para carregar os dados do resultado.
   Future<void> fetchScore() async {
     try {
+      isLoading.value = true;
+      error.value = null;
+
       final url = "${Environment.baseUrl}/score/$responseId";
       final response = await http.get(Uri.parse(url));
+
       if (response.statusCode >= 200 && response.statusCode < 300) {
         final data = jsonDecode(response.body);
         scoreData.value = data;
         print(data);
+        scoreData.refresh();
+        update();
       } else {
         error.value = "Erro ao carregar o resultado: ${response.statusCode}";
       }

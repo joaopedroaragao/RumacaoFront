@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
         fontFamily: "Inter",
         useMaterial3: true,
       ),
-      home: const ResultsPage(responseId: "edIrpKyXN7OCFTZ8msqE"),
+      home: const HomePage(),
     );
   }
 }
