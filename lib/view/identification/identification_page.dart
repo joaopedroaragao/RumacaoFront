@@ -19,12 +19,12 @@ class IdentificationPage extends StatelessWidget {
       items: [
         const Spacer(flex: 2),
         SizedBox(
-          width: MediaQuery.of(context).size.width * 0.75,
+          width: Get.width * 0.75,
           child: const IdentificationForm(),
         ),
         const Spacer(),
         SizedBox(
-          width: MediaQuery.of(context).size.width * 0.75,
+          width: Get.width * 0.75,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
