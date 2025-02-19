@@ -13,7 +13,7 @@ class ArcSlider extends StatefulWidget {
   final Color Function(double value) colorResolver; // Função para resolver a cor do arco com base no value
 
   const ArcSlider({
-    Key? key,
+    super.key,
     required this.arrowColor,
     required this.backgroundArcColor,
     this.arrowThickness = 3.0,
@@ -26,11 +26,10 @@ class ArcSlider extends StatefulWidget {
   })  : assert(value >= 0.0 && value <= 1.0, 'Value must be between 0 and 1'),
         assert(arcThickness > 0, 'Arc thickness must be greater than 0'),
         assert(width > 0, 'Width must be greater than 0'),
-        assert(height > 0, 'Height must be greater than 0'),
-        super(key: key);
+        assert(height > 0, 'Height must be greater than 0');
 
   @override
-  _ArcSliderState createState() => _ArcSliderState();
+  State<ArcSlider> createState() => _ArcSliderState();
 }
 
 class _ArcSliderState extends State<ArcSlider> {
@@ -163,8 +162,8 @@ class GaugePainter extends CustomPainter {
     canvas.drawLine(arrowStart, arrowEnd, arrowPaint);
 
     // Desenha os "braços" da cabeça da seta
-    final double arrowHeadSize = 10;
-    final double arrowHeadAngle = pi / 4.5;
+    const double arrowHeadSize = 10;
+    const double arrowHeadAngle = pi / 4.5;
 
     final arrowLeft = Offset(
       arrowEnd.dx - arrowHeadSize * cos(pi + angle - arrowHeadAngle),

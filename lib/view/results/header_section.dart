@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:rumacao_front/viewmodel/results_view_model.dart';
 
 class HeaderSection extends StatelessWidget {
-  const HeaderSection({Key? key}) : super(key: key);
+  const HeaderSection({super.key});
 
   @override
   Widget build(BuildContext context) {

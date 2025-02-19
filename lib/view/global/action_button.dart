@@ -9,13 +9,13 @@ class ActionButton extends StatelessWidget {
   final double? height;
 
   const ActionButton({
-    Key? key,
+    super.key,
     this.text,
     this.color,
     this.onPressed,
     this.width = 147,
     this.height = 40,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

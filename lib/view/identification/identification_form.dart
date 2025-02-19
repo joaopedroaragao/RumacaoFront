@@ -5,7 +5,7 @@ import 'package:rumacao_front/view/identification/form_text_field.dart';
 import 'package:rumacao_front/viewmodel/identification_view_model.dart';
 
 class IdentificationForm extends StatelessWidget {
-  const IdentificationForm({Key? key}) : super(key: key);
+  const IdentificationForm({super.key});
 
   @override
   Widget build(BuildContext context) {

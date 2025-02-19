@@ -8,7 +8,7 @@ import 'package:rumacao_front/view/home/middle_section.dart';
 import 'package:rumacao_front/viewmodel/home_view_model.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {

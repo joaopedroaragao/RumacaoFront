@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:rumacao_front/constants/app_constants.dart';
 
 class DescriptionText extends StatelessWidget {
-  const DescriptionText({Key? key}) : super(key: key);
+  const DescriptionText({super.key});
 
   @override
   Widget build(BuildContext context) {

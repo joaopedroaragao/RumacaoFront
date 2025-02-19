@@ -8,7 +8,7 @@ import 'package:rumacao_front/view/questions/questions_page.dart';
 import 'package:rumacao_front/viewmodel/identification_view_model.dart';
 
 class IdentificationPage extends StatelessWidget {
-  const IdentificationPage({Key? key}) : super(key: key);
+  const IdentificationPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -49,8 +49,8 @@ class IdentificationPage extends StatelessWidget {
               Obx(() {
                 if (!viewModel.acceptTerms.value &&
                     viewModel.hasSubmitted.value) {
-                  return Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
+                  return const Padding(
+                    padding: EdgeInsets.only(left: 8.0),
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(

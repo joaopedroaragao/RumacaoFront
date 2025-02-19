@@ -8,13 +8,13 @@ class PercentageTile extends StatelessWidget {
   final double height; // Altura configurável
 
   const PercentageTile({
-    Key? key,
+    super.key,
     required this.title,
     required this.percentage,
     required this.color,
     required this.isFilled,
     this.height = 60, // valor padrão
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +73,7 @@ class PercentageTile extends StatelessWidget {
     // usamos um ClipRRect no container externo e a faixa é um widget separado sem borderRadius.
     Widget tileChild;
     Widget paddedContent = Padding(
-      padding: EdgeInsets.symmetric(horizontal: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 8),
       child: content
     );
     tileChild = Row(

@@ -6,7 +6,7 @@ import 'package:rumacao_front/constants/app_constants.dart';
 class BaseInteractionScreenHeader extends StatelessWidget {
   final String text;
 
-  const BaseInteractionScreenHeader({Key? key, required this.text}) : super(key: key);
+  const BaseInteractionScreenHeader({super.key, required this.text});
 
   @override
   Widget build(BuildContext context) {

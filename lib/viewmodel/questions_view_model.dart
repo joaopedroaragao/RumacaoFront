@@ -1,12 +1,11 @@
 import 'dart:convert';
-import 'dart:math';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:rumacao_front/constants/environment.dart';
 import 'package:rumacao_front/model/question.dart';
 import 'package:rumacao_front/view/results/results_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:visibility_detector/visibility_detector.dart';
+import 'package:flutter/foundation.dart';
 
 class QuestionViewModel extends GetxController {
   /// Indica se o quiz está carregando.
@@ -56,7 +55,7 @@ class QuestionViewModel extends GetxController {
           jsonMap.map((key, value) => MapEntry(int.parse(key), value as int)),
         );
       } catch (e) {
-        print("Erro ao carregar respostas do cache: $e");
+        debugPrint("Erro ao carregar respostas do cache: $e");
       }
     }
   }
@@ -80,7 +79,7 @@ class QuestionViewModel extends GetxController {
           jsonList.map((json) => Question.fromJson(json)).toList(),
         );
       } catch (e) {
-        print("Erro ao carregar questões do cache: $e");
+        debugPrint("Erro ao carregar questões do cache: $e");
       }
     }
   }
@@ -96,7 +95,7 @@ class QuestionViewModel extends GetxController {
   /// Consome as questões da API e as salva no cache.
   /// Consome as questões da API e as salva no cache.
   void _loadQuestions() async {
-    final url = "${Environment.baseUrl}/quiz/cXNZNJc3HOu7N2faYqgo";
+    const url = "${Environment.baseUrl}/quiz/cXNZNJc3HOu7N2faYqgo";
     try {
       final response = await http.get(Uri.parse(url));
       if (response.statusCode == 200) {
@@ -108,10 +107,10 @@ class QuestionViewModel extends GetxController {
         );
         await _saveQuestions();
       } else {
-        print("Erro ao buscar questões. Status code: ${response.statusCode}");
+        debugPrint("Erro ao buscar questões. Status code: ${response.statusCode}");
       }
     } catch (e) {
-      print("Erro na requisição: $e");
+      debugPrint("Erro na requisição: $e");
     }
 
     // Ajusta o currentQuestionIndex para a primeira pergunta não respondida,

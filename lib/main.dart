@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rumacao_front/constants/app_constants.dart';
 import 'package:rumacao_front/view/home/home_page.dart';
-import 'package:rumacao_front/view/identification/identification_page.dart';
-import 'package:rumacao_front/view/questions/questions_page.dart';
-import 'package:rumacao_front/view/results/results_page.dart';
 
 void main() {
   runApp(const MyApp());

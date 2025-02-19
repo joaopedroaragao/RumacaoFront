@@ -9,11 +9,11 @@ class FormTextField extends StatelessWidget {
   final RxnString errorText;
 
   const FormTextField({
-    Key? key,
+    super.key,
     required this.label,
     required this.onChanged,
     required this.errorText,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

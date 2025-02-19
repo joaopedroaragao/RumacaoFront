@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:rumacao_front/viewmodel/home_view_model.dart';
 
 class MiddleSection extends StatelessWidget {
-  const MiddleSection({Key? key}) : super(key: key);
+  const MiddleSection({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:rumacao_front/constants/environment.dart';
@@ -61,7 +62,7 @@ class IdentificationViewModel extends GetxController {
   Future<void> submit() async {
     isSubmitting.value = true;
     try {
-      final url = "${Environment.baseUrl}/user";
+      const url = "${Environment.baseUrl}/user";
       final response = await http.post(
         Uri.parse(url),
         headers: {"Content-Type": "application/json"},
@@ -78,12 +79,12 @@ class IdentificationViewModel extends GetxController {
         await prefs.setString("userId", userId);
         await prefs.setString("name", name.value);
         await prefs.setString("email", email.value);
-        print("Usuário identificado com userId: $userId");
+        debugPrint("Usuário identificado com userId: $userId");
       } else {
-        print("Erro no submit: ${response.statusCode}");
+        debugPrint("Erro no submit: ${response.statusCode}");
       }
     } catch (e) {
-      print("Erro na requisição: $e");
+      debugPrint("Erro na requisição: $e");
     } finally {
       isSubmitting.value = false;
     }

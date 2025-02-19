@@ -7,12 +7,10 @@ import 'package:rumacao_front/constants/font_family.dart';
 import 'package:rumacao_front/model/answer_option.dart';
 import 'package:rumacao_front/view/global/action_button.dart';
 import 'package:rumacao_front/view/global/footer.dart';
-import 'package:rumacao_front/view/home/home_page.dart';
 import 'package:rumacao_front/view/questions/option_selector.dart';
 import 'package:rumacao_front/view/questions/questions_carousel.dart';
 import 'package:rumacao_front/view/questions/questions_progress_bar.dart';
 import 'package:rumacao_front/viewmodel/questions_view_model.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class QuestionsPage extends StatefulWidget {
   const QuestionsPage({super.key});

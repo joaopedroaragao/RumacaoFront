@@ -29,11 +29,11 @@ class OptionSelector extends StatelessWidget {
   final void Function(int)? onSelected;
 
   const OptionSelector({
-    Key? key,
+    super.key,
     required this.options,
     this.selectedIndex,
     this.onSelected,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

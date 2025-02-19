@@ -132,49 +132,49 @@ class AppStyles {
     fontFamily: FontFamily.inter.name,
   );
 
-  static final TextStyle titleStyle = TextStyle(
+  static const TextStyle titleStyle = TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.bold,
     color: Colors.black,
   );
 
-  static final TextStyle subtitleStyle = TextStyle(
+  static const TextStyle subtitleStyle = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.w400,
     color: Colors.black54,
   );
 
-  static final TextStyle resultTitleStyle = TextStyle(
+  static const TextStyle resultTitleStyle = TextStyle(
     fontSize: 18,
     fontWeight: FontWeight.bold,
     color: Color(0xFF327760),
   );
 
-  static final TextStyle textStyle = TextStyle(
+  static const TextStyle textStyle = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.w500,
     color: Colors.black54,
   );
 
-  static final TextStyle bodyText = TextStyle(
+  static const TextStyle bodyText = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.w400,
     color: Colors.black87,
   );
 
-  static final TextStyle resultTextStyle = TextStyle(
+  static const TextStyle resultTextStyle = TextStyle(
     fontSize: 22,
     fontWeight: FontWeight.bold,
     color: Color(0xFF327760),
   );
 
-  static final TextStyle percentageTextStyle = TextStyle(
+  static const TextStyle percentageTextStyle = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.bold,
     color: Colors.black,
   );
 
-  static final TextStyle percentageTitleStyle = TextStyle(
+  static const TextStyle percentageTitleStyle = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.w400,
     color: Colors.black87,

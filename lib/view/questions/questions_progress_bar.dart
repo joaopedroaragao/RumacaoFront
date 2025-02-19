@@ -7,12 +7,12 @@ class QuestionsProgressBar extends StatelessWidget {
   final Color themeColor;
 
   const QuestionsProgressBar({
-    Key? key,
+    super.key,
     required this.progress,
     required this.height,
     this.indicatorWidth = 32,
     required this.themeColor,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

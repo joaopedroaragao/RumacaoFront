@@ -17,10 +17,8 @@ dependencies:
   flutter_svg: ^2.0.17
   url_launcher: ^6.3.1
   carousel_slider: ^5.0.0
-  visibility_detector: ^0.4.0+2
-  image: ^4.5.2
-  lottie: ^3.2.0
   shared_preferences: ^2.5.1
+  http:
 
 dependency_overrides:
   archive: ^4.0.2

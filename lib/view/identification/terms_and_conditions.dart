@@ -2,10 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rumacao_front/constants/app_constants.dart';
-// import 'package:rumacao_front/view/terms/terms_page.dart';
+import 'package:rumacao_front/view/terms/terms_page.dart';
 
 class TermsAndConditions extends StatelessWidget {
-  const TermsAndConditions({Key? key}) : super(key: key);
+  const TermsAndConditions({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class TermsAndConditions extends StatelessWidget {
               child: GestureDetector(
                 onTap: () {
                   // Redireciona para a página de Termos e Condições e Política de Privacidade
-                  // Get.to(() => const TermsPage());
+                  Get.to(() => const TermsPage());
                 },
                 child: Text(
                   AppStrings.termsAndConditionsAndPrivacyPolicy,

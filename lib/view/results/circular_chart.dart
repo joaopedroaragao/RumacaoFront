@@ -14,11 +14,11 @@ class CircularChart extends StatelessWidget {
   final double strokeWidth;
 
   const CircularChart({
-    Key? key,
+    super.key,
     required this.segments,
     this.size = 150,
     this.strokeWidth = 10,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

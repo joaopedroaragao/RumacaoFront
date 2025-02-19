@@ -1,7 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:visibility_detector/visibility_detector.dart';
 import 'package:get/get.dart';
 
 class QuestionsCarousel extends StatefulWidget {
@@ -14,7 +13,7 @@ class QuestionsCarousel extends StatefulWidget {
   final VoidCallback? onSwipeForwardBlocked; // Callback quando tentativa de avanço é detectada
 
   const QuestionsCarousel({
-    Key? key,
+    super.key,
     required this.length,
     required this.itemBuilder,
     this.onPageChanged,
@@ -22,7 +21,7 @@ class QuestionsCarousel extends StatefulWidget {
     required this.initialPage,
     required this.lastAnsweredIndex,
     this.onSwipeForwardBlocked,
-  }) : super(key: key);
+  });
 
   @override
   State<QuestionsCarousel> createState() => _QuestionsCarouselState();
@@ -36,7 +35,6 @@ class _QuestionsCarouselState extends State<QuestionsCarousel> {
   int? _pendingPage; // Armazena o índice final enquanto o scroll não terminou
   bool _isScrolling = false; // Indica se o scroll está ativo
   bool _hasTriggeredBounce = false; // Garante que o bounce seja disparado apenas uma vez por gesto
-  bool _hasExecutedJump = false; // Garante que o jumpToPage seja chamado apenas uma vez por gesto
   double _scrollOffset = 0;
   ScrollPhysics? _blockingPhysics = const BouncingScrollPhysics();
 
@@ -133,7 +131,6 @@ class _QuestionsCarouselState extends State<QuestionsCarousel> {
                     setState(() {
                       _isScrolling = true;
                       _hasTriggeredBounce = false;
-                      _hasExecutedJump = false;
                     });
                   }
                 });
@@ -150,7 +147,6 @@ class _QuestionsCarouselState extends State<QuestionsCarousel> {
                   if (mounted) {
                     setState(() {
                       _isScrolling = false;
-                      _hasExecutedJump = false;
                     });
                   }
                 });
@@ -186,8 +182,7 @@ class _QuestionsCarouselState extends State<QuestionsCarousel> {
 class BlockForwardScrollPhysics extends BouncingScrollPhysics {
   final bool blockForward;
 
-  const BlockForwardScrollPhysics({ScrollPhysics? parent, required this.blockForward})
-      : super(parent: parent);
+  const BlockForwardScrollPhysics({super.parent, required this.blockForward});
 
   @override
   BlockForwardScrollPhysics applyTo(ScrollPhysics? ancestor) {

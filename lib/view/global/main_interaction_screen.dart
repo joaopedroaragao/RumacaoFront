@@ -8,10 +8,10 @@ class MainInteractionScreen extends StatelessWidget {
   final List<Widget> items;
 
   const MainInteractionScreen({
-    Key? key,
+    super.key,
     required this.headerText,
     required this.items
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

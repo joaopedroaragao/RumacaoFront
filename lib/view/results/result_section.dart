@@ -4,10 +4,9 @@ import 'package:get/get.dart';
 import 'package:rumacao_front/view/results/circular_chart.dart';
 import 'package:rumacao_front/view/results/percentage_tile.dart';
 import 'package:rumacao_front/viewmodel/results_view_model.dart';
-import 'package:rumacao_front/model/score_data.dart';
 
 class ResultSection extends StatelessWidget {
-  const ResultSection({Key? key}) : super(key: key);
+  const ResultSection({super.key});
 
   /// Retorna a cor associada à categoria (usando cores fixas).
   Color _getCategoryColor(String areaName) {

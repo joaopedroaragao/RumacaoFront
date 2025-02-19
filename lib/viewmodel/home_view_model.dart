@@ -9,7 +9,7 @@ class HomeViewModel extends GetxController {
     final userId = prefs.getString("userId");
     if (userId != null && userId.isNotEmpty) {
       // Se já existe um usuário identificado, vai direto para as perguntas.
-      Get.to(() => QuestionsPage());
+      Get.to(() => const QuestionsPage());
     } else {
       // Caso contrário, vai para a tela de identificação.
       Get.to(() => const IdentificationPage());

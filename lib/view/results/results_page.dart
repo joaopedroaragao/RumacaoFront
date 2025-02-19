@@ -12,7 +12,7 @@ import 'package:rumacao_front/viewmodel/results_view_model.dart';
 
 class ResultsPage extends StatefulWidget {
   final String responseId;
-  const ResultsPage({Key? key, required this.responseId}) : super(key: key);
+  const ResultsPage({super.key, required this.responseId});
 
   @override
   State<ResultsPage> createState() => _ResultsPageState();
