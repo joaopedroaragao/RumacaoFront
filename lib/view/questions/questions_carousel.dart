@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:visibility_detector/visibility_detector.dart';
+import 'package:get/get.dart';
 
 class QuestionsCarousel extends StatefulWidget {
   final int length;
@@ -47,29 +48,36 @@ class _QuestionsCarouselState extends State<QuestionsCarousel> {
 
   @override
   Widget build(BuildContext context) {
-    // Física base sem bloqueio (movimentos livres).
+    // Calcula o viewportFraction de forma inversamente proporcional à largura.
+    // Quando Get.width == 500, computedViewportFraction será 275/500 = 0.55.
+    final double computedViewportFraction = 0.55 * pow(500 / Get.width, 0.1);
+
+    // Física base para scroll.
     const basePhysics = BouncingScrollPhysics();
 
-    // Quando lastAnsweredIndex for -1, o target (página permitida) será 0;
+    // Define o índice permitido: se nenhuma resposta foi dada (lastAnsweredIndex == -1), o allowedPage será 0;
     // caso contrário, será lastAnsweredIndex + 1.
     final int allowedPage = widget.lastAnsweredIndex >= 0
         ? widget.lastAnsweredIndex + 1
         : 0;
 
-    // Se o _scrollOffset indicar que o primeiro item não respondido está visível,
-    // então bloqueia o avanço para a direita.
+    // Se o _scrollOffset indicar que o item permitido está visível, usa física que bloqueia avanço para a direita.
     final effectiveScrollPhysics = (_scrollOffset >= allowedPage)
-        ? _blockingPhysics ?? const BlockForwardScrollPhysics(parent: basePhysics, blockForward: true)
+        ? _blockingPhysics ??
+        const BlockForwardScrollPhysics(
+          parent: basePhysics,
+          blockForward: true,
+        )
         : basePhysics;
 
     final defaultOptions = CarouselOptions(
-      viewportFraction: 0.55,
+      viewportFraction: computedViewportFraction,
       initialPage: _currentIndex,
       enlargeCenterPage: true,
       enableInfiniteScroll: false,
       onScrolled: (value) {
         final newOffset = value ?? 0;
-        // Atualiza o _scrollOffset no final do frame
+        // Atualiza o _scrollOffset agendando a mudança para o final do frame.
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (mounted) {
             setState(() {
@@ -81,22 +89,23 @@ class _QuestionsCarouselState extends State<QuestionsCarousel> {
         if (newOffset >= allowedPage) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             if (mounted) {
-              setState(() {
-                _carouselController
+              _carouselController
                   .animateToPage(allowedPage)
-                  .whenComplete(() => Future.delayed(const Duration(milliseconds: 1500), () {
+                  .whenComplete(() => Future.delayed(
+                const Duration(milliseconds: 1500),
+                    () {
+                  if (mounted) {
                     setState(() {
                       _blockingPhysics = null;
                     });
-                }));
-              });
+                  }
+                },
+              ));
             }
           });
         }
       },
-      // Usa a física de scroll efetiva baseada no _scrollOffset.
       scrollPhysics: effectiveScrollPhysics,
-      // Garante que o índice final não ultrapasse o permitido.
       onPageChanged: (index, reason) {
         final int target = min(index, allowedPage);
         _pendingPage = target;
@@ -190,8 +199,8 @@ class BlockForwardScrollPhysics extends BouncingScrollPhysics {
 
   @override
   double applyBoundaryConditions(ScrollMetrics position, double value) {
-    // Se for um movimento para a direita (value > posição atual)
-    // e o bloqueio estiver ativo, impede o movimento.
+    // Se o movimento for para a direita (value > posição atual) e o bloqueio estiver ativo,
+    // impede o movimento.
     if (blockForward && value > position.pixels) {
       return value - position.pixels;
     }

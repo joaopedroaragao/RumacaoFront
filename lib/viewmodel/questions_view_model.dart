@@ -94,6 +94,7 @@ class QuestionViewModel extends GetxController {
   }
 
   /// Consome as questões da API e as salva no cache.
+  /// Consome as questões da API e as salva no cache.
   void _loadQuestions() async {
     final url = "${Environment.baseUrl}/quiz/cXNZNJc3HOu7N2faYqgo";
     try {
@@ -112,6 +113,17 @@ class QuestionViewModel extends GetxController {
     } catch (e) {
       print("Erro na requisição: $e");
     }
+
+    // Ajusta o currentQuestionIndex para a primeira pergunta não respondida,
+    // ou, se todas já estiverem respondidas, para a última.
+    if (questions.isNotEmpty) {
+      final unansweredEntry = questions.asMap().entries.firstWhere(
+            (entry) => !selectedAnswers.containsKey(entry.key),
+        orElse: () => MapEntry(questions.length - 1, questions.last),
+      );
+      currentQuestionIndex.value = unansweredEntry.key;
+    }
+
     isLoading.value = false;
   }
 

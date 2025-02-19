@@ -84,12 +84,12 @@ class _QuestionsPageState extends State<QuestionsPage> with SingleTickerProvider
 
     _expandAnimation = TweenSequence<double>([
       TweenSequenceItem(
-        tween: Tween<double>(begin: 1, end: 1.2)
+        tween: Tween<double>(begin: 1, end: 1.1)
             .chain(CurveTween(curve: Curves.easeOut)),
         weight: 20,
       ),
       TweenSequenceItem(
-        tween: Tween<double>(begin: 1.2, end: 1)
+        tween: Tween<double>(begin: 1.1, end: 1)
             .chain(CurveTween(curve: Curves.easeIn)),
         weight: 20,
       ),
@@ -305,8 +305,8 @@ class _QuestionsPageState extends State<QuestionsPage> with SingleTickerProvider
                 viewModel.currentAnswer(index) != null
                     ? images[viewModel.currentAnswer(index)!]
                     : AppStrings.mascoteImages.neutral1,
-                width: 300,
-                height: 300,
+                width: 350,
+                height: 350,
                 fit: BoxFit.cover,
               );
               if (_animateIndex != null && index == _animateIndex) {
