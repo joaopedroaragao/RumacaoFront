@@ -49,7 +49,7 @@ class AppStrings {
   static const String identificationHeaderMessage =
       'Para começar, por favor informe seu nome e e-mail.';
   static const String newsletterConsentMessage =
-      "Você aceita coisar a newsletter?";
+      "Você aceita receber a nossa newsletter?";
 
   static const agree = "Concordo";
   static const totallyAgree = "Concordo totalmente";

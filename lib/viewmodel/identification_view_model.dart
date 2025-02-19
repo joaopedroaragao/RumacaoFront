@@ -15,6 +15,9 @@ class IdentificationViewModel extends GetxController {
   var acceptNewsletter = false.obs;
   var isSubmitting = false.obs; // Estado para mostrar loading no botão
 
+  // Getter para utilizar como isLoading
+  RxBool get isLoading => isSubmitting;
+
   void setName(String value) {
     name.value = value;
     if (hasSubmitted.value) validateName();

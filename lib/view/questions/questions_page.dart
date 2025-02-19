@@ -1,3 +1,4 @@
+// Exemplo de uso no QuestionsPage.dart (trecho relevante)
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -20,7 +21,90 @@ class QuestionsPage extends StatefulWidget {
   State<QuestionsPage> createState() => _QuestionsPageState();
 }
 
-class _QuestionsPageState extends State<QuestionsPage> {
+class _QuestionsPageState extends State<QuestionsPage> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _bounceAnimation;
+  late Animation<double> _expandAnimation;
+
+  int? _animateIndex; // Índice do item do carousel que deve animar
+  late Animation<double> _animation = _bounceAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1000),
+    );
+
+    // TweenSequence para simular uma bola quicando com "pulsos" decrescentes.
+    _bounceAnimation = TweenSequence<double>([
+      TweenSequenceItem(
+        tween: Tween<double>(begin: 0, end: -60)
+            .chain(CurveTween(curve: Curves.easeOut)),
+        weight: 20,
+      ),
+      TweenSequenceItem(
+        tween: Tween<double>(begin: -60, end: 0)
+            .chain(CurveTween(curve: Curves.easeIn)),
+        weight: 20,
+      ),
+      TweenSequenceItem(
+        tween: Tween<double>(begin: 0, end: -30)
+            .chain(CurveTween(curve: Curves.easeOut)),
+        weight: 15,
+      ),
+      TweenSequenceItem(
+        tween: Tween<double>(begin: -30, end: 0)
+            .chain(CurveTween(curve: Curves.easeIn)),
+        weight: 15,
+      ),
+      TweenSequenceItem(
+        tween: Tween<double>(begin: 0, end: -15)
+            .chain(CurveTween(curve: Curves.easeOut)),
+        weight: 10,
+      ),
+      TweenSequenceItem(
+        tween: Tween<double>(begin: -15, end: 0)
+            .chain(CurveTween(curve: Curves.easeIn)),
+        weight: 10,
+      ),
+      TweenSequenceItem(
+        tween: Tween<double>(begin: 0, end: -7)
+            .chain(CurveTween(curve: Curves.easeOut)),
+        weight: 5,
+      ),
+      TweenSequenceItem(
+        tween: Tween<double>(begin: -7, end: 0)
+            .chain(CurveTween(curve: Curves.easeIn)),
+        weight: 5,
+      ),
+    ]).animate(_controller);
+
+    _expandAnimation = TweenSequence<double>([
+      TweenSequenceItem(
+        tween: Tween<double>(begin: 1, end: 1.2)
+            .chain(CurveTween(curve: Curves.easeOut)),
+        weight: 20,
+      ),
+      TweenSequenceItem(
+        tween: Tween<double>(begin: 1.2, end: 1)
+            .chain(CurveTween(curve: Curves.easeIn)),
+        weight: 20,
+      ),
+    ]).animate(_controller);
+
+    _controller.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        setState(() {
+          _animateIndex = null;
+          _animation = _bounceAnimation;
+        });
+      }
+    });
+  }
+
   final answerOptions = [
     AnswerOption(id: 0, label: "Discordo"),
     AnswerOption(id: 1, label: ""),
@@ -37,59 +121,46 @@ class _QuestionsPageState extends State<QuestionsPage> {
     AppStrings.mascoteImages.totallyAgree3,
   ];
 
-  // Mapeia um AnswerOption para um OptionButton (aspectos visuais)
   OptionButton buildOptionButton(AnswerOption option) {
     switch (option.id) {
       case 0:
         return OptionButton(
-          borderWidth: 3,
           size: 55,
-          borderColor: Colors.blue,
-          backgroundColor: const Color(0xFFD9D9D9),
-          selectedColor: Colors.blue,
+          backgroundColor: const Color(0xFF7E96EC).withOpacity(0.45),
+          selectedColor: const Color(0xFF7E96EC),
           label: option.label,
         );
       case 1:
         return OptionButton(
-          borderWidth: 3,
           size: 45,
-          borderColor: Colors.blue.shade300,
-          backgroundColor: const Color(0xFFD9D9D9),
-          selectedColor: Colors.blue.shade300,
+          backgroundColor: const Color(0xFFA98EED).withOpacity(0.45),
+          selectedColor: const Color(0xFFA98EED),
           label: option.label,
         );
       case 2:
         return OptionButton(
-          borderWidth: 3,
           size: 40,
-          borderColor: Colors.grey,
-          backgroundColor: const Color(0xFFD9D9D9),
-          selectedColor: Colors.grey,
+          backgroundColor: const Color(0xFFC591ED).withOpacity(0.45),
+          selectedColor: const Color(0xFFC591ED),
           label: option.label,
         );
       case 3:
         return OptionButton(
-          borderWidth: 3,
           size: 45,
-          borderColor: Colors.pink.shade300,
-          backgroundColor: const Color(0xFFD9D9D9),
-          selectedColor: Colors.pink.shade300,
+          backgroundColor: const Color(0xFFCE73EA).withOpacity(0.45),
+          selectedColor: const Color(0xFFCE73EA),
           label: option.label,
         );
       case 4:
         return OptionButton(
-          borderWidth: 3,
           size: 55,
-          borderColor: Colors.pink,
-          backgroundColor: const Color(0xFFD9D9D9),
-          selectedColor: Colors.pink,
+          backgroundColor: const Color(0xFFEA5EB5).withOpacity(0.45),
+          selectedColor: const Color(0xFFEA5EB5),
           label: option.label,
         );
       default:
         return OptionButton(
-          borderWidth: 3,
           size: 40,
-          borderColor: Colors.grey,
           backgroundColor: const Color(0xFFD9D9D9),
           selectedColor: Colors.grey,
           label: option.label,
@@ -97,7 +168,6 @@ class _QuestionsPageState extends State<QuestionsPage> {
     }
   }
 
-  /// Card azul pré-quiz (exibe o nome do usuário vindo do QuestionViewModel)
   Widget _preQuizCard(BuildContext context, QuestionViewModel viewModel) {
     final double dialogWidth = MediaQuery.of(context).size.width * 0.8;
     final double dialogHeight = MediaQuery.of(context).size.height * 0.5;
@@ -105,6 +175,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
       child: Container(
         width: dialogWidth,
         height: dialogHeight,
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: const Color(0xFF90A8ED),
           borderRadius: BorderRadius.circular(16),
@@ -135,7 +206,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
                 );
               }
             }),
-            const Spacer(flex: 2)
+            const Spacer(flex: 2),
           ],
         ),
       ),
@@ -150,7 +221,6 @@ class _QuestionsPageState extends State<QuestionsPage> {
     );
   }
 
-  /// _welcomeText_ utiliza o valor do nome vindo do view model.
   Widget _welcomeText() {
     return Obx(() {
       final name = Get.find<QuestionViewModel>().userName.value.isNotEmpty
@@ -181,10 +251,9 @@ class _QuestionsPageState extends State<QuestionsPage> {
     );
   }
 
-  /// Container com altura fixa para o texto da pergunta.
   Widget _questionText(QuestionViewModel viewModel) {
-    const double fixedHeight = 80;
-    if (viewModel.questions.isEmpty) return const SizedBox(height: fixedHeight);
+    final double fixedHeight = Get.height * 0.13;
+    if (viewModel.questions.isEmpty) return SizedBox(height: fixedHeight);
     final currentQuestion = viewModel.questions[viewModel.currentQuestionIndex.value];
     return Container(
       height: fixedHeight,
@@ -204,38 +273,62 @@ class _QuestionsPageState extends State<QuestionsPage> {
     );
   }
 
-  /// Conteúdo completo do quiz (sem o Footer) – exibido após tocar em INICIAR
   Widget _quizContent(BuildContext context, QuestionViewModel viewModel) {
+    // Calcula o índice da última pergunta respondida (se nenhum, -1)
+    int lastAnswered = viewModel.selectedAnswers.isEmpty
+        ? -1
+        : viewModel.selectedAnswers.keys.reduce(max);
+
     return Column(
       children: [
-        const Spacer(),
+        const Spacer(flex: 2),
         Obx(() => _questionText(viewModel)),
         const Spacer(),
         Expanded(
-          flex: 20,
+          flex: 15,
           child: Obx(() => QuestionsCarousel(
             length: viewModel.questions.length,
-            currentIndex: viewModel.currentQuestionIndex.value, // Adicionado
+            initialPage: lastAnswered,
+            lastAnsweredIndex: lastAnswered,
+            onSwipeForwardBlocked: () {
+              if (viewModel.selectedAnswers[viewModel.currentQuestionIndex.value] == null) {
+                setState(() {
+                  _animateIndex = viewModel.currentQuestionIndex.value;
+                  _animation = _expandAnimation;
+                });
+                _controller.reset();
+                _controller.forward();
+              }
+            },
             itemBuilder: (context, index, realIndex) {
-              return Obx(
-                    () => Container(
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                  ),
-                  child: Image.asset(
-                    viewModel.currentAnswer(index) != null
-                        ? images[viewModel.currentAnswer(index)!]
-                        : AppStrings.mascoteImages.neutral1,
-                    width: 300,
-                    height: 300,
-                    fit: BoxFit.cover,
-                  ),
-                ),
+              Widget imageWidget = Image.asset(
+                viewModel.currentAnswer(index) != null
+                    ? images[viewModel.currentAnswer(index)!]
+                    : AppStrings.mascoteImages.neutral1,
+                width: 300,
+                height: 300,
+                fit: BoxFit.cover,
               );
+              if (_animateIndex != null && index == _animateIndex) {
+                return AnimatedBuilder(
+                  animation: _controller,
+                  builder: (context, child) {
+                    return _animation == _expandAnimation
+                        ? Transform.scale(
+                      scale: _expandAnimation.value,
+                      child: child,
+                    )
+                        : Transform.translate(
+                      offset: Offset(0, _bounceAnimation.value),
+                      child: child,
+                    );
+                  },
+                  child: imageWidget,
+                );
+              }
+              return imageWidget;
             },
-            onVisibilityChanged: (info, index) {
-              viewModel.onItemVisibilityChanged(info, index);
-            },
+            onPageChanged: (index) => viewModel.onPageChanged(index),
           )),
         ),
         const Spacer(),
@@ -249,21 +342,39 @@ class _QuestionsPageState extends State<QuestionsPage> {
                   (option) => option.id == selectedAnswerId,
             );
             final int? selectedIndex = selectedOptionIndex >= 0 ? selectedOptionIndex : null;
-
-            return OptionSelector(
-              spacing: 32,
-              options: answerOptions.map(buildOptionButton).toList(),
-              selectedIndex: selectedIndex,
-              onSelected: (optionIndex) {
-                final option = answerOptions[optionIndex];
-                viewModel.selectAnswer(option.id);
-                setState(() {});
-              },
+            return Row(
+              children: [
+                const Spacer(),
+                Expanded(
+                  flex: 10,
+                  child: OptionSelector(
+                    options: answerOptions.map(buildOptionButton).toList(),
+                    selectedIndex: selectedIndex,
+                    onSelected: (optionIndex) {
+                      final option = answerOptions[optionIndex];
+                      // Se estamos na primeira pergunta (índice 0) e ela ainda não foi respondida,
+                      // aplicamos o bounceAnimation.
+                      if (viewModel.currentQuestionIndex.value == 0 &&
+                          viewModel.selectedAnswers[0] == null) {
+                        setState(() {
+                          // Anima o próximo item (índice 1) com bounce.
+                          _animateIndex = viewModel.currentQuestionIndex.value + 1;
+                          _animation = _bounceAnimation;
+                        });
+                        _controller.reset();
+                        _controller.forward();
+                      }
+                      // Registra a resposta (isso fará com que, nas próximas vezes, a animação não ocorra)
+                      viewModel.selectAnswer(option.id);
+                    },
+                  ),
+                ),
+                const Spacer(),
+              ],
             );
           }),
         ),
         const Spacer(),
-        // Botão FINALIZAR sempre presente, visível somente se todas as questões tiverem resposta.
         Obx(() {
           final bool allAnswered = viewModel.questions.isNotEmpty &&
               viewModel.selectedAnswers.length == viewModel.questions.length;
@@ -283,7 +394,6 @@ class _QuestionsPageState extends State<QuestionsPage> {
           );
         }),
         const Spacer(flex: 2),
-        // Cálculo do progresso conforme a fórmula solicitada:
         Obx(() {
           double progress = 0.0;
           if (viewModel.questions.length > 1) {
@@ -308,6 +418,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
   Widget build(BuildContext context) {
     final QuestionViewModel viewModel = Get.put(QuestionViewModel());
     return Obx(() {
+      bool blockInteractions = _controller.isAnimating;
       return Stack(
         children: [
           Scaffold(
@@ -326,11 +437,11 @@ class _QuestionsPageState extends State<QuestionsPage> {
                       ? _preQuizCard(context, viewModel)
                       : _quizContent(context, viewModel),
                 ),
-                // const Footer(),
+                if (viewModel.showIntroCard.value)
+                  const Footer(),
               ],
             ),
           ),
-          // Overlay de loading para bloquear a interação enquanto submete as respostas.
           if (viewModel.isSubmittingResponses.value)
             Positioned.fill(
               child: Container(
@@ -342,8 +453,23 @@ class _QuestionsPageState extends State<QuestionsPage> {
                 ),
               ),
             ),
+          if (blockInteractions)
+            Positioned.fill(
+              child: AbsorbPointer(
+                absorbing: true,
+                child: Container(
+                  color: Colors.transparent,
+                ),
+              ),
+            ),
         ],
       );
     });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 }

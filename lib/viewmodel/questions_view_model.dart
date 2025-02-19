@@ -121,8 +121,8 @@ class QuestionViewModel extends GetxController {
   }
 
   /// Atualiza o índice da pergunta atual conforme a visibilidade.
-  void onItemVisibilityChanged(VisibilityInfo info, int index) {
-    if (info.visibleFraction == 1.0 && currentQuestionIndex.value != index) {
+  void onPageChanged(int index) {
+    if (currentQuestionIndex.value != index) {
       currentQuestionIndex.value = index;
     }
   }

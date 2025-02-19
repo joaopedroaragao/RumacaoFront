@@ -47,7 +47,8 @@ class IdentificationPage extends StatelessWidget {
               ),
               // Label de erro para os Termos (aparece caso não esteja marcado e o formulário já tenha sido submetido)
               Obx(() {
-                if (!viewModel.acceptTerms.value && viewModel.hasSubmitted.value) {
+                if (!viewModel.acceptTerms.value &&
+                    viewModel.hasSubmitted.value) {
                   return Padding(
                     padding: const EdgeInsets.only(left: 8.0),
                     child: Align(
@@ -84,11 +85,20 @@ class IdentificationPage extends StatelessWidget {
           ),
         ),
         const Spacer(),
-        ElevatedButton(
+        // Botão ou loading
+        Obx(() => viewModel.isLoading.value
+            ? const Center(
+          child: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF7E97ED)),
+          ),
+        )
+            : ElevatedButton(
           onPressed: () async {
+            viewModel.isLoading.value = true;
             if (await viewModel.validateForm()) {
-              Get.to(() => QuestionsPage());
+              Get.to(() => const QuestionsPage());
             }
+            viewModel.isLoading.value = false;
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color(0xFF7E97ED),
@@ -103,7 +113,7 @@ class IdentificationPage extends StatelessWidget {
               style: TextStyle(color: Colors.white),
             ),
           ),
-        ),
+        )),
         const Spacer(flex: 3),
       ],
     );
