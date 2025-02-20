@@ -12,7 +12,7 @@ class HomeViewModel extends GetxController {
       Get.to(() => const QuestionsPage());
     } else {
       // Caso contrário, vai para a tela de identificação.
-      Get.to(() => const IdentificationPage());
+      Get.to(() => IdentificationPage());
     }
   }
 }

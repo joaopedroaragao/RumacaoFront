@@ -1,6 +1,10 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:rumacao_front/constants/app_constants.dart';
+import 'package:rumacao_front/constants/font_size.dart';
 
-class PercentageTile extends StatelessWidget {
+class PercentageTile extends StatefulWidget {
   final String title;
   final String percentage;
   final Color color;
@@ -17,14 +21,44 @@ class PercentageTile extends StatelessWidget {
   });
 
   @override
+  State<PercentageTile> createState() => _PercentageTileState();
+}
+
+class _PercentageTileState extends State<PercentageTile> with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    // Adiciona o observer para redimensionamento do navegador
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeMetrics() {
+    // Força o rebuild quando as dimensões mudarem
+    setState(() {});
+  }
+
+  @override
   Widget build(BuildContext context) {
     // Cor de fundo do tile
-    final backgroundColor = isFilled ? color : Colors.white;
-    // Cor do texto
-    final percentageColor = isFilled ? Colors.white : const Color(0xFF161A41).withOpacity(0.78);
-    final textColor = isFilled ? Colors.white.withOpacity(0.64) : const Color(0xFF161A41).withOpacity(0.41);
-    final shadowColor = isFilled ? const Color(0xFF6976EB).withOpacity(0.36) : Colors.black.withOpacity(0.04);
-    // Sombra mais forte se preenchido
+    final backgroundColor = widget.isFilled ? widget.color : Colors.white;
+    // Cores do texto
+    final percentageColor = widget.isFilled
+        ? Colors.white
+        : const Color(0xFF161A41).withOpacity(0.78);
+    final textColor = widget.isFilled
+        ? Colors.white.withOpacity(0.64)
+        : const Color(0xFF161A41).withOpacity(0.41);
+    final shadowColor = widget.isFilled
+        ? const Color(0xFF6976EB).withOpacity(0.36)
+        : Colors.black.withOpacity(0.04);
+
     final boxShadow = [
       BoxShadow(
         color: shadowColor,
@@ -38,13 +72,13 @@ class PercentageTile extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
         children: [
-          SizedBox(
-            width: 42,
+          Expanded(
+            flex: 3,
             child: Text(
-              percentage,
+              widget.percentage,
               textAlign: TextAlign.left,
               style: TextStyle(
-                fontSize: 18,
+                fontSize: calculateFontSize(17),
                 fontWeight: FontWeight.bold,
                 color: percentageColor,
               ),
@@ -54,33 +88,32 @@ class PercentageTile extends StatelessWidget {
           Expanded(
             flex: 4,
             child: Text(
-              title,
+              widget.title,
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 16,
+                fontSize: calculateFontSize(14),
                 color: textColor,
                 fontWeight: FontWeight.bold,
               ),
             ),
           ),
-          const Spacer(flex: 3)
+          const Spacer(flex: 4),
         ],
       ),
     );
 
-    // Se não estiver preenchido, criamos uma faixa à esquerda.
-    // Para manter a borda externa arredondada mas a interna reta,
-    // usamos um ClipRRect no container externo e a faixa é um widget separado sem borderRadius.
-    Widget tileChild;
-    Widget paddedContent = Padding(
+    // Cria uma versão com padding interno para o conteúdo
+    final Widget paddedContent = Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
-      child: content
+      child: content,
     );
-    tileChild = Row(
+
+    // Se não estiver preenchido, cria uma faixa à esquerda
+    final Widget tileChild = Row(
       children: [
         Container(
           width: 10,
-          color: color, // faixa sem arredondamento
+          color: widget.color, // faixa sem arredondamento
         ),
         Expanded(child: paddedContent),
       ],
@@ -90,12 +123,12 @@ class PercentageTile extends StatelessWidget {
 
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-      height: height,
+      height: widget.height,
       decoration: BoxDecoration(
         boxShadow: boxShadow,
-        borderRadius: borderRadius
+        borderRadius: borderRadius,
       ),
-      // O ClipRRect garante que o contorno externo fique arredondado.
+      // ClipRRect garante que o contorno externo fique arredondado
       child: ClipRRect(
         borderRadius: borderRadius,
         child: Container(

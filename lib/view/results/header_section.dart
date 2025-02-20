@@ -1,6 +1,7 @@
 // lib/view/results/header_section.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rumacao_front/constants/font_size.dart';
 import 'package:rumacao_front/viewmodel/results_view_model.dart';
 
 class HeaderSection extends StatelessWidget {
@@ -30,17 +31,17 @@ class HeaderSection extends StatelessWidget {
             Text(
               "Parabéns, $userName!\nSeu resultado foi",
               textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 18,
+              style: TextStyle(
+                fontSize: calculateFontSize(18),
                 fontWeight: FontWeight.bold,
-                color: Color(0xFF494C6B)
+                color: const Color(0xFF494C6B)
               ),
             ),
             const SizedBox(height: 12),
             Text(
               quizTitle, // Ex: "Educação Ambiental" ou "Educação Ambiental / Ciência"
-              style: const TextStyle(
-                fontSize: 18,
+              style: TextStyle(
+                fontSize: calculateFontSize(18),
                 fontWeight: FontWeight.w600,
               ),
             ),

@@ -1,9 +1,9 @@
-// Exemplo de uso no QuestionsPage.dart (trecho relevante)
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rumacao_front/constants/app_constants.dart';
 import 'package:rumacao_front/constants/font_family.dart';
+import 'package:rumacao_front/constants/font_size.dart'; // Importa a função calculateFontSize
 import 'package:rumacao_front/model/answer_option.dart';
 import 'package:rumacao_front/view/global/action_button.dart';
 import 'package:rumacao_front/view/global/footer.dart';
@@ -19,7 +19,8 @@ class QuestionsPage extends StatefulWidget {
   State<QuestionsPage> createState() => _QuestionsPageState();
 }
 
-class _QuestionsPageState extends State<QuestionsPage> with SingleTickerProviderStateMixin {
+class _QuestionsPageState extends State<QuestionsPage>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _bounceAnimation;
   late Animation<double> _expandAnimation;
@@ -228,7 +229,7 @@ class _QuestionsPageState extends State<QuestionsPage> with SingleTickerProvider
         "Parabéns, $name!",
         style: TextStyle(
           fontFamily: FontFamily.inter.name,
-          fontSize: 18,
+          fontSize: calculateFontSize(18).roundToDouble(),
           fontWeight: FontWeight.w700,
           color: Colors.white,
         ),
@@ -242,7 +243,7 @@ class _QuestionsPageState extends State<QuestionsPage> with SingleTickerProvider
       textAlign: TextAlign.center,
       style: TextStyle(
         fontFamily: FontFamily.inter.name,
-        fontSize: 15,
+        fontSize: calculateFontSize(15).roundToDouble(),
         fontWeight: FontWeight.w400,
         color: Colors.white,
       ),
@@ -262,7 +263,7 @@ class _QuestionsPageState extends State<QuestionsPage> with SingleTickerProvider
         textAlign: TextAlign.center,
         style: TextStyle(
           fontFamily: FontFamily.inter.name,
-          fontSize: Get.height * 0.025,
+          fontSize: calculateFontSize(16).roundToDouble(),
           fontWeight: FontWeight.w500,
         ),
         maxLines: 3,
@@ -350,19 +351,15 @@ class _QuestionsPageState extends State<QuestionsPage> with SingleTickerProvider
                     selectedIndex: selectedIndex,
                     onSelected: (optionIndex) {
                       final option = answerOptions[optionIndex];
-                      // Se estamos na primeira pergunta (índice 0) e ela ainda não foi respondida,
-                      // aplicamos o bounceAnimation.
                       if (viewModel.currentQuestionIndex.value == 0 &&
                           viewModel.selectedAnswers[0] == null) {
                         setState(() {
-                          // Anima o próximo item (índice 1) com bounce.
                           _animateIndex = viewModel.currentQuestionIndex.value + 1;
                           _animation = _bounceAnimation;
                         });
                         _controller.reset();
                         _controller.forward();
                       }
-                      // Registra a resposta (isso fará com que, nas próximas vezes, a animação não ocorra)
                       viewModel.selectAnswer(option.id);
                     },
                   ),
@@ -435,8 +432,7 @@ class _QuestionsPageState extends State<QuestionsPage> with SingleTickerProvider
                       ? _preQuizCard(context, viewModel)
                       : _quizContent(context, viewModel),
                 ),
-                if (viewModel.showIntroCard.value)
-                  const Footer(),
+                if (viewModel.showIntroCard.value) const Footer(),
               ],
             ),
           ),

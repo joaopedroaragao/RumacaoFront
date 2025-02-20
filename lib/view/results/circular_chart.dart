@@ -8,23 +8,49 @@ class ChartSegment {
   ChartSegment({required this.value, required this.color});
 }
 
-class CircularChart extends StatelessWidget {
+class CircularChart extends StatefulWidget {
   final List<ChartSegment> segments;
   final double size;
   final double strokeWidth;
 
   const CircularChart({
-    super.key,
+    Key? key,
     required this.segments,
     this.size = 150,
     this.strokeWidth = 10,
-  });
+  }) : super(key: key);
+
+  @override
+  State<CircularChart> createState() => _CircularChartState();
+}
+
+class _CircularChartState extends State<CircularChart> with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeMetrics() {
+    // Força o rebuild quando ocorrer um redimensionamento do navegador
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
-      size: Size(size, size),
-      painter: _CircularChartPainter(segments: segments, strokeWidth: strokeWidth),
+      size: Size(widget.size, widget.size),
+      painter: _CircularChartPainter(
+        segments: widget.segments,
+        strokeWidth: widget.strokeWidth,
+      ),
     );
   }
 }
@@ -64,6 +90,7 @@ class _CircularChartPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _CircularChartPainter oldDelegate) {
-    return oldDelegate.segments != segments || oldDelegate.strokeWidth != strokeWidth;
+    return oldDelegate.segments != segments ||
+        oldDelegate.strokeWidth != strokeWidth;
   }
 }

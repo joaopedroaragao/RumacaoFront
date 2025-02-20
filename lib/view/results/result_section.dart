@@ -91,7 +91,7 @@ class ResultSection extends StatelessWidget {
 
         // Ordena em ordem decrescente de valor numérico
         tileData.sort((a, b) => b.numericValue.compareTo(a.numericValue));
-
+        print(Get.height);
         return Column(
           children: [
             const SizedBox(height: 20),
@@ -106,7 +106,7 @@ class ResultSection extends StatelessWidget {
             for (var data in tileData)
               PercentageTile(
                 title: data.title,
-                // Arredonda o valor para inteiro e adiciona "%"
+                height: 80 * Get.height/917,
                 percentage: "${data.numericValue.round()}%",
                 color: data.color,
                 isFilled: data.isFilled,

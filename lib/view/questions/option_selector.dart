@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rumacao_front/constants/font_family.dart';
+import 'package:rumacao_front/constants/font_size.dart';
 
 /// Representa o aspecto visual de uma opção.
 class OptionButton {
@@ -79,7 +80,7 @@ class OptionSelector extends StatelessWidget {
               style: option.textStyle ??
                   TextStyle(
                     fontFamily: FontFamily.inter.name,
-                    fontSize: 16,
+                    fontSize: calculateFontSize(13),
                     fontWeight: FontWeight.w400,
                     color: Colors.black,
                   ),

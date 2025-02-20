@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rumacao_front/constants/app_constants.dart';
+import 'package:rumacao_front/constants/font_size.dart';
 import 'package:rumacao_front/view/global/main_interaction_screen.dart';
 import 'package:rumacao_front/view/identification/identification_form.dart';
 import 'package:rumacao_front/view/identification/terms_and_conditions.dart';
@@ -8,12 +9,17 @@ import 'package:rumacao_front/view/questions/questions_page.dart';
 import 'package:rumacao_front/viewmodel/identification_view_model.dart';
 
 class IdentificationPage extends StatelessWidget {
-  const IdentificationPage({super.key});
+  final viewModel = IdentificationViewModel();
+
+  IdentificationPage({super.key}) {
+    Get.put(viewModel);
+  }
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = IdentificationViewModel();
-    Get.put(viewModel);
+    // Calcula o fator de escala com base na altura da tela (base: 800)
+    final double scale = MediaQuery.of(context).size.height / 800;
+
     return MainInteractionScreen(
       headerText: AppStrings.identificationHeaderMessage,
       items: [
@@ -45,17 +51,20 @@ class IdentificationPage extends StatelessWidget {
                   const Flexible(flex: 3, child: TermsAndConditions()),
                 ],
               ),
-              // Label de erro para os Termos (aparece caso não esteja marcado e o formulário já tenha sido submetido)
+              // Exibe erro para os Termos (como placeholder dentro do layout, sem aumentar a altura)
               Obx(() {
                 if (!viewModel.acceptTerms.value &&
                     viewModel.hasSubmitted.value) {
-                  return const Padding(
-                    padding: EdgeInsets.only(left: 8.0),
+                  return Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
                         "Você deve aceitar os Termos e Condições para continuar",
-                        style: TextStyle(color: Colors.red, fontSize: 12),
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontSize: calculateFontSize(10),
+                        ),
                       ),
                     ),
                   );
@@ -75,9 +84,11 @@ class IdentificationPage extends StatelessWidget {
                     },
                   )),
                   const SizedBox(width: 5),
-                  Text(
-                    AppStrings.newsletterConsentMessage,
-                    style: AppStyles.termsText,
+                  Flexible(
+                    child: Text(
+                      AppStrings.newsletterConsentMessage,
+                      style: AppStyles.termsText,
+                    ),
                   ),
                 ],
               )
@@ -85,11 +96,15 @@ class IdentificationPage extends StatelessWidget {
           ),
         ),
         const Spacer(),
-        // Botão ou loading
+        // Botão ou loading com altura proporcional
         Obx(() => viewModel.isLoading.value
-            ? const Center(
-          child: CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF7E97ED)),
+            ? Center(
+          child: SizedBox(
+            height: 51 * scale,
+            width: 51 * scale,
+            child: const CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF7E97ED)),
+            ),
           ),
         )
             : ElevatedButton(
@@ -102,15 +117,22 @@ class IdentificationPage extends StatelessWidget {
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color(0xFF7E97ED),
+            minimumSize: Size(159 * scale, 51 * scale),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),
           ),
-          child: const Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Text(
-              AppStrings.confirmButtonText,
-              style: TextStyle(color: Colors.white),
+          child: Padding(
+            padding: EdgeInsets.all(16.0 * scale),
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(
+                AppStrings.confirmButtonText,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: calculateFontSize(14),
+                ),
+              ),
             ),
           ),
         )),

@@ -1,12 +1,36 @@
-// lib/view/identification/base_interaction_screen_header.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rumacao_front/constants/app_constants.dart';
 
-class BaseInteractionScreenHeader extends StatelessWidget {
+class BaseInteractionScreenHeader extends StatefulWidget {
   final String text;
 
   const BaseInteractionScreenHeader({super.key, required this.text});
+
+  @override
+  State<BaseInteractionScreenHeader> createState() =>
+      _BaseInteractionScreenHeaderState();
+}
+
+class _BaseInteractionScreenHeaderState
+    extends State<BaseInteractionScreenHeader> with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeMetrics() {
+    // Força o rebuild da UI quando as dimensões da janela mudarem.
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +44,7 @@ class BaseInteractionScreenHeader extends StatelessWidget {
             Expanded(
               flex: 4,
               child: Text(
-                text,
+                widget.text,
                 textAlign: TextAlign.center,
                 style: AppStyles.headerText, // Usando estilo centralizado no AppStyles
               ),

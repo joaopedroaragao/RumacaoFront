@@ -1,6 +1,6 @@
-// lib/constants/app_constants.dart
 import 'package:flutter/material.dart';
 import 'font_family.dart';
+import 'package:rumacao_front/constants/font_size.dart';
 
 class MascoteImages {
   final String neutral1 = "assets/images/mascote/neutral/1.png";
@@ -78,7 +78,7 @@ class AppColors {
 
 class AppStyles {
   static final TextStyle descriptionText = TextStyle(
-    fontSize: 15,
+    fontSize: calculateFontSize(15),
     fontWeight: FontWeight.w800,
     fontFamily: FontFamily.inter.name,
   );
@@ -90,93 +90,111 @@ class AppStyles {
 
   static final TextStyle footerTitle = TextStyle(
     fontFamily: FontFamily.dynamicSchematic.name,
-    fontSize: 16,
+    fontSize: calculateFontSize(16),
     fontWeight: FontWeight.bold,
     color: AppColors.white,
   );
 
   static final TextStyle footerText = TextStyle(
-    fontSize: 10,
+    fontSize: calculateFontSize(10),
     color: AppColors.white,
     fontFamily: FontFamily.inter.name,
   );
 
   static final TextStyle fieldLabel = TextStyle(
-    fontSize: 14,
+    fontSize: calculateFontSize(14),
     fontWeight: FontWeight.w600,
     fontFamily: FontFamily.inter.name,
   );
 
   static final TextStyle errorText = TextStyle(
     color: Colors.red,
-    fontSize: 12,
+    fontSize: calculateFontSize(12),
     fontFamily: FontFamily.inter.name,
   );
 
   static final TextStyle termsText = TextStyle(
-    fontSize: 12,
+    fontSize: calculateFontSize(10),
     color: Colors.black,
     fontFamily: FontFamily.inter.name,
   );
 
   static final TextStyle linkText = TextStyle(
-    fontSize: 12,
+    fontSize: calculateFontSize(10),
     color: AppColors.termsAndConditionsBlue,
-    decoration: TextDecoration.none, // Remove o sublinhado
+    decoration: TextDecoration.none,
     fontFamily: FontFamily.inter.name,
   );
 
   static final TextStyle headerText = TextStyle(
-    fontSize: 16,
+    fontSize: calculateFontSize(16),
     fontWeight: FontWeight.w600,
     fontFamily: FontFamily.inter.name,
   );
 
   static const TextStyle titleStyle = TextStyle(
-    fontSize: 20,
+    fontSize: 20, // será ajustado abaixo com calculateFontSize
     fontWeight: FontWeight.bold,
     color: Colors.black,
   );
 
   static const TextStyle subtitleStyle = TextStyle(
-    fontSize: 16,
+    fontSize: 16, // será ajustado abaixo com calculateFontSize
     fontWeight: FontWeight.w400,
     color: Colors.black54,
   );
 
   static const TextStyle resultTitleStyle = TextStyle(
-    fontSize: 18,
+    fontSize: 18, // será ajustado abaixo com calculateFontSize
     fontWeight: FontWeight.bold,
     color: Color(0xFF327760),
   );
 
   static const TextStyle textStyle = TextStyle(
-    fontSize: 14,
+    fontSize: 14, // será ajustado abaixo com calculateFontSize
     fontWeight: FontWeight.w500,
     color: Colors.black54,
   );
 
   static const TextStyle bodyText = TextStyle(
-    fontSize: 14,
+    fontSize: 14, // será ajustado abaixo com calculateFontSize
     fontWeight: FontWeight.w400,
     color: Colors.black87,
   );
 
   static const TextStyle resultTextStyle = TextStyle(
-    fontSize: 22,
+    fontSize: 22, // será ajustado abaixo com calculateFontSize
     fontWeight: FontWeight.bold,
     color: Color(0xFF327760),
   );
 
   static const TextStyle percentageTextStyle = TextStyle(
-    fontSize: 16,
+    fontSize: 16, // será ajustado abaixo com calculateFontSize
     fontWeight: FontWeight.bold,
     color: Colors.black,
   );
 
   static const TextStyle percentageTitleStyle = TextStyle(
-    fontSize: 14,
+    fontSize: 14, // será ajustado abaixo com calculateFontSize
     fontWeight: FontWeight.w400,
     color: Colors.black87,
   );
+
+  // Se necessário, para os estilos que são declarados como const, podemos criar getters:
+  static TextStyle get titleStyleResponsive =>
+      titleStyle.copyWith(fontSize: calculateFontSize(20));
+  static TextStyle get subtitleStyleResponsive =>
+      subtitleStyle.copyWith(fontSize: calculateFontSize(16));
+  static TextStyle get resultTitleStyleResponsive =>
+      resultTitleStyle.copyWith(fontSize: calculateFontSize(18));
+  static TextStyle get textStyleResponsive =>
+      textStyle.copyWith(fontSize: calculateFontSize(14));
+  static TextStyle get bodyTextResponsive =>
+      bodyText.copyWith(fontSize: calculateFontSize(14));
+  static TextStyle get resultTextStyleResponsive =>
+      resultTextStyle.copyWith(fontSize: calculateFontSize(22));
+  static TextStyle get percentageTextStyleResponsive =>
+      percentageTextStyle.copyWith(fontSize: calculateFontSize(16));
+  static TextStyle get percentageTitleStyleResponsive =>
+      percentageTitleStyle.copyWith(fontSize: calculateFontSize(14));
 }

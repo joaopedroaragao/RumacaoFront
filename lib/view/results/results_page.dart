@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rumacao_front/constants/app_constants.dart';
 import 'package:rumacao_front/constants/font_family.dart';
+import 'package:rumacao_front/constants/font_size.dart';
 import 'package:rumacao_front/view/global/action_button.dart';
 import 'package:rumacao_front/view/global/footer.dart';
 import 'package:rumacao_front/view/home/home_page.dart';
@@ -82,7 +83,7 @@ class _ResultsPageState extends State<ResultsPage> with WidgetsBindingObserver {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontFamily: FontFamily.inter.name,
-                        fontSize: 16,
+                        fontSize: calculateFontSize(16),
                         color: const Color(0xFF494C6B),
                         height: 1.4,
                       ),
@@ -92,7 +93,7 @@ class _ResultsPageState extends State<ResultsPage> with WidgetsBindingObserver {
                   Container(
                     color: Colors.white,
                     child: SizedBox(
-                      width: max(320, Get.width / 3),
+                      width: min(max(420, Get.width / 3), Get.width - 32),
                       child: const ResultSection(),
                     ),
                   ),

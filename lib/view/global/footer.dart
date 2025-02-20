@@ -1,8 +1,7 @@
-// lib/view/global/footer.dart
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:rumacao_front/constants/app_constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -12,64 +11,72 @@ class Footer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final fullWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final double appBarHeight = Scaffold.of(context).appBarMaxHeight ?? 0;
+
+    // Fator de escala baseado na altura, limitado entre 0.5 e 1.0.
+    // Assim, em telas pequenas, o layout será reduzido proporcionalmente.
+    final double scale = (screenHeight / 2000).clamp(0.5, 1.0);
     final width = fullWidth * 0.75;
-    final height = width/24.7;
+    final logoHeight = width / 24.7;
 
     return Container(
       width: fullWidth,
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16 * scale),
       color: AppColors.footerBackground,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const SizedBox(height: 16),
+          SizedBox(height: 16 * scale),
           ConstrainedBox(
-            constraints: const BoxConstraints(
-              maxWidth: 500,
-              maxHeight: 30
-            ),
+            constraints: const BoxConstraints(maxWidth: 500, maxHeight: 30),
             child: LayoutBuilder(
               builder: (context, constraints) {
                 return Image.asset(
                   AppStrings.footerLogo,
                   fit: BoxFit.fitWidth,
-                  height: min(height, constraints.maxHeight),
-                  width: min(width, constraints.maxWidth)
+                  height: min(logoHeight, constraints.maxHeight),
+                  width: min(width, constraints.maxWidth),
                 );
               },
             ),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16 * scale),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 12.0),
+                padding: EdgeInsets.symmetric(vertical: 12.0 * scale),
                 child: Text(
                   AppStrings.footerTitle,
-                  style: AppStyles.footerTitle,
+                  style: AppStyles.footerTitle.copyWith(
+                    fontSize: AppStyles.footerTitle.fontSize! * scale,
+                  ),
                 ),
               ),
-              _socialLinks(),
+              _socialLinks(scale),
             ],
           ),
+          SizedBox(height: 16 * scale),
         ],
       ),
     );
   }
 
-  Widget _socialLinks() {
+  Widget _socialLinks(double scale) {
     return Column(
       children: [
         _socialLink(
           iconPath: AppStrings.instagramIcon,
           text: AppStrings.instagramHandle,
           url: 'https://instagram.com/${AppStrings.instagramHandle}',
+          verticalSpacing: 8 * scale,
         ),
-        const SizedBox(height: 8),
+        SizedBox(height: 8 * scale),
         _socialLink(
           iconPath: AppStrings.emailIcon,
           text: AppStrings.email,
+          verticalSpacing: 8 * scale,
         ),
       ],
     );
@@ -79,15 +86,22 @@ class Footer extends StatelessWidget {
     required String iconPath,
     required String text,
     String? url,
+    required double verticalSpacing,
   }) {
     final child = Row(
       children: [
-        SvgPicture.asset(iconPath, fit: BoxFit.fitWidth, width: 16),
+        SvgPicture.asset(
+          iconPath,
+          width: 16,
+          fit: BoxFit.fitWidth,
+        ),
         const SizedBox(width: 8),
         Text(text, style: AppStyles.footerText),
       ],
     );
-    return url == null ? child : InkWell(
+    return url == null
+        ? child
+        : InkWell(
       onTap: () async {
         final Uri uri = Uri.parse(url);
         if (await canLaunchUrl(uri)) {
@@ -96,7 +110,10 @@ class Footer extends StatelessWidget {
           throw 'Could not launch $url';
         }
       },
-      child: child,
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: verticalSpacing),
+        child: child,
+      ),
     );
   }
 }
