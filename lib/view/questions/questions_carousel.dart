@@ -7,6 +7,7 @@ class QuestionsCarousel extends StatefulWidget {
   final int length;
   final ExtendedIndexedWidgetBuilder itemBuilder;
   final Function(int index)? onPageChanged;
+  final Function(int index)? onInstantlyPageChange;
   final CarouselOptions? options;
   final int initialPage; // Índice inicial (currentIndex interno será gerenciado)
   final int lastAnsweredIndex; // Índice da última pergunta respondida (-1 se nenhuma foi respondida)
@@ -17,6 +18,7 @@ class QuestionsCarousel extends StatefulWidget {
     required this.length,
     required this.itemBuilder,
     this.onPageChanged,
+    this.onInstantlyPageChange,
     this.options,
     required this.initialPage,
     required this.lastAnsweredIndex,
@@ -108,6 +110,7 @@ class _QuestionsCarouselState extends State<QuestionsCarousel> {
         final int target = min(index, allowedPage);
         _pendingPage = target;
         if (mounted) {
+          widget.onInstantlyPageChange?.call(index);
           setState(() {
             _currentIndex = target;
           });

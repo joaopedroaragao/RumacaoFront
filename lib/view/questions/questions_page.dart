@@ -337,6 +337,7 @@ class _QuestionsPageState extends State<QuestionsPage>
               return animatedImage;
             },
             onPageChanged: (index) => viewModel.onPageChanged(index),
+            onInstantlyPageChange: (index) => viewModel.onPageChanged(index),
           )),
         ),
         const Spacer(),
