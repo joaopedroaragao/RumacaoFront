@@ -20,8 +20,12 @@ class TermsAndConditions extends StatelessWidget {
               cursor: SystemMouseCursors.click, // Cursor de clique
               child: GestureDetector(
                 onTap: () {
-                  // Redireciona para a página de Termos e Condições e Política de Privacidade
-                  Get.to(() => const TermsPage());
+                  Get.dialog(
+                    const TermsPage(),
+                    barrierDismissible: true, // se quiser que o usuário feche ao clicar fora
+                    transitionCurve: Curves.easeInOut,
+                    transitionDuration: const Duration(milliseconds: 300),
+                  );
                 },
                 child: Text(
                   AppStrings.termsAndConditionsAndPrivacyPolicy,
