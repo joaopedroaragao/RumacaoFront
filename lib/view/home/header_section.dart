@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rumacao_front/constants/app_constants.dart';
 
 class HeaderSection extends StatelessWidget {
   const HeaderSection({super.key});
@@ -29,10 +30,11 @@ class HeaderSection extends StatelessWidget {
       width: double.infinity,
       color: Colors.grey.shade300,
       child: Center(
-        child: Icon(
-          Icons.image,
-          size: max(height, 125),
-          color: Colors.blue,
+        child: Image.asset(
+          width: double.infinity,
+          AppStrings.rumaSplash,
+          height:  max(height, 125),
+          fit: BoxFit.cover,
         ),
       ),
     );

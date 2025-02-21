@@ -42,6 +42,7 @@ class AppStrings {
   static const String headerLogo = "assets/images/logo_header.png";
   static const String rumacaoIcon = "assets/images/rumacao_icon.png";
   static const String footerLogo = "assets/images/logo_footer.png";
+  static const String rumaSplash = "assets/images/ruma_splash.png";
   static const String instagramIcon = "assets/images/instagram_icon.svg";
   static const String emailIcon = "assets/images/email_icon.svg";
   static const String description =
