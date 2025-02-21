@@ -93,7 +93,6 @@ class QuestionViewModel extends GetxController {
   }
 
   /// Consome as questões da API e as salva no cache.
-  /// Consome as questões da API e as salva no cache.
   void _loadQuestions() async {
     const url = "${Environment.baseUrl}/quiz/cXNZNJc3HOu7N2faYqgo";
     try {
@@ -198,7 +197,11 @@ class QuestionViewModel extends GetxController {
         final responseId = jsonResponse["responseId"];
         // Salva o responseId no cache.
         await prefs.setString("responseId", responseId);
-        // Navega para a página de resultados, que deverá carregar o resultado pelo endpoint /score/{responseId}.
+
+        // Salva a soma total dos scores no cache.
+        await saveTotalScore();
+
+        // Navega para a página de resultados.
         Get.to(() => ResultsPage(responseId: responseId));
       } else {
         Get.defaultDialog(
@@ -210,5 +213,12 @@ class QuestionViewModel extends GetxController {
     } finally {
       isSubmittingResponses.value = false;
     }
+  }
+
+  /// Salva a soma de todos os valores do map selectedAnswers no cache.
+  Future<void> saveTotalScore() async {
+    final prefs = await SharedPreferences.getInstance();
+    final totalScore = selectedAnswers.values.fold(0, (sum, value) => sum + value);
+    await prefs.setInt('totalScore', totalScore);
   }
 }

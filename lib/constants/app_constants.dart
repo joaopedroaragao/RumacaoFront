@@ -22,6 +22,18 @@ class MascoteImages {
   final String totallyDisagree1 = "assets/images/mascote/totally_disagree/1.png";
   final String totallyDisagree2 = "assets/images/mascote/totally_disagree/2.png";
   final String totallyDisagree3 = "assets/images/mascote/totally_disagree/3.png";
+
+
+
+  final String majorCi = "assets/images/mascote/results/major_ci.png";
+  final String majorCul = "assets/images/mascote/results/major_cul.png";
+  final String majorEd = "assets/images/mascote/results/major_ed.png";
+
+  final String mixedCiCul = "assets/images/mascote/results/mixed_ci_cul.png";
+  final String mixedCiEd = "assets/images/mascote/results/mixed_ci_ed.png";
+  final String mixedCulEd = "assets/images/mascote/results/mixed_cul_ed.png";
+
+  final String equivalent = "assets/images/mascote/results/equivalent.png";
 }
 
 class AppStrings {
@@ -198,3 +210,27 @@ class AppStyles {
   static TextStyle get percentageTitleStyleResponsive =>
       percentageTitleStyle.copyWith(fontSize: calculateFontSize(14));
 }
+
+final appBar = PreferredSize(
+  preferredSize: const Size.fromHeight(kToolbarHeight),
+  child: Container(
+    decoration: BoxDecoration(
+      color: Colors.white,
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black.withOpacity(0.25),
+          offset: const Offset(0, -1), // define o deslocamento da sombra
+          blurRadius: 6, // define o blur da sombra
+        ),
+      ],
+    ),
+    child: AppBar(
+      elevation: 0,
+      backgroundColor: Colors.transparent,
+      title: Image.asset(AppStrings.headerLogo),
+      centerTitle: true,
+      surfaceTintColor: Colors.transparent,
+      leading: Container(),
+    ),
+  ),
+);

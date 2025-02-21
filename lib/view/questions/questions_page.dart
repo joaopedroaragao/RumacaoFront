@@ -418,13 +418,7 @@ class _QuestionsPageState extends State<QuestionsPage>
         children: [
           Scaffold(
             backgroundColor: AppColors.white,
-            appBar: AppBar(
-              backgroundColor: AppColors.white,
-              elevation: 0,
-              centerTitle: true,
-              title: Image.asset(AppStrings.headerLogo),
-              leading: Container(),
-            ),
+            appBar: appBar,
             body: Column(
               children: [
                 Expanded(

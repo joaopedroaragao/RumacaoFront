@@ -13,11 +13,11 @@ class ResultSection extends StatelessWidget {
     switch (areaName.toLowerCase()) {
       case "educação":
       case "educação ambiental":
-        return const Color(0xFFEA5EB5);
+        return const Color(0xFF1D967E);
       case "cultura":
-        return const Color(0xFFFFDB4F);
+        return const Color(0xFFEB73B3);
       case "ciência":
-        return const Color(0xFFFE8F38);
+        return const Color(0xFF7E97ED);
       default:
         return Colors.grey;
     }
@@ -91,7 +91,7 @@ class ResultSection extends StatelessWidget {
 
         // Ordena em ordem decrescente de valor numérico
         tileData.sort((a, b) => b.numericValue.compareTo(a.numericValue));
-        print(Get.height);
+
         return Column(
           children: [
             const SizedBox(height: 20),

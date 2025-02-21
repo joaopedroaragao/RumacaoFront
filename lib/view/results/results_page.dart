@@ -1,5 +1,9 @@
+// lib/view/results/results_page.dart
 import 'dart:math';
+import 'dart:ui' as ui;
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:rumacao_front/constants/app_constants.dart';
 import 'package:rumacao_front/constants/font_family.dart';
@@ -11,9 +15,12 @@ import 'package:rumacao_front/view/results/header_section.dart';
 import 'package:rumacao_front/view/results/result_section.dart';
 import 'package:rumacao_front/viewmodel/results_view_model.dart';
 
+// IMPORTAÇÃO PARA WEB – OBS: Essa importação funciona apenas na web.
+import 'dart:html' as html;
+
 class ResultsPage extends StatefulWidget {
   final String responseId;
-  const ResultsPage({super.key, required this.responseId});
+  const ResultsPage({Key? key, required this.responseId}) : super(key: key);
 
   @override
   State<ResultsPage> createState() => _ResultsPageState();
@@ -21,9 +28,10 @@ class ResultsPage extends StatefulWidget {
 
 class _ResultsPageState extends State<ResultsPage> with WidgetsBindingObserver {
   late ResultsViewModel viewModel;
-
-  // Define uma largura base ideal para o layout (por exemplo, 390)
+  // Largura base ideal para o layout
   final double baseWidth = 410;
+  // Chave para capturar o conteúdo compartilhável (agora usando Opacity para que ele seja pintado)
+  final GlobalKey _shareKey = GlobalKey();
 
   @override
   void initState() {
@@ -40,83 +48,219 @@ class _ResultsPageState extends State<ResultsPage> with WidgetsBindingObserver {
 
   @override
   void didChangeMetrics() {
-    // Chamado sempre que as métricas (tamanho da tela, por exemplo) mudam.
+    // Atualiza a tela quando as métricas mudam
     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    // Calcula um fator de escala com base na largura atual comparada à base ideal.
     final double scale = Get.width / baseWidth;
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        centerTitle: true,
-        title: Image.asset(AppStrings.headerLogo),
-        leading: const SizedBox.shrink(),
-      ),
-      body: Column(
+      appBar: appBar,
+      // Utilizamos um Stack para manter o widget compartilhável "oculto" mas pintado
+      body: Stack(
         children: [
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  SizedBox(height: 16 * scale),
-                  const HeaderSection(),
-                  SizedBox(height: 16 * scale),
-                  // Mascote: ajuste a altura proporcional à largura
-                  Image.asset(
-                    AppStrings.mascoteImages.neutral3,
-                    height: max(Get.height / 3.5, Get.width / 4),
-                    fit: BoxFit.fitHeight,
-                  ),
-                  SizedBox(height: 16 * scale),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: Get.width / 8),
-                    child: Text(
-                      "Parabéns por concluir o nosso quiz! 🎉\n"
-                          "Esperamos que você tenha se divertido e feito descobertas "
-                          "interessantes ao longo do caminho.",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontFamily: FontFamily.inter.name,
-                        fontSize: calculateFontSize(16),
-                        color: const Color(0xFF494C6B),
-                        height: 1.4,
-                      ),
+          RepaintBoundary(
+            key: _shareKey,
+            child: ShareableView(viewModel: viewModel),
+          ),
+          Container(
+            color: Colors.white,
+            child: Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        SizedBox(height: 16 * scale),
+                        const HeaderSection(),
+                        SizedBox(height: 16 * scale),
+                        // Imagem do mascote conforme o ResultType
+                        Obx(() {
+                          return Image.asset(
+                            viewModel.mascotImage,
+                            height: max(Get.height / 3.5, Get.width / 4),
+                            fit: BoxFit.fitHeight,
+                          );
+                        }),
+                        SizedBox(height: 16 * scale),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: Get.width / 8),
+                          child: Text(
+                            "Parabéns por concluir o nosso quiz! 🎉\n"
+                                "Esperamos que você tenha se divertido e feito descobertas interessantes ao longo do caminho.",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontFamily: FontFamily.inter.name,
+                              fontSize: calculateFontSize(16),
+                              color: const Color(0xFF494C6B),
+                              height: 1.4,
+                            ),
+                          ),
+                        ),
+                        // Exibe a seção de resultados se o resultado NÃO for inconclusivo
+                        if (viewModel.resultType.value != ResultType.INCONCLUSIVE) ...[
+                          SizedBox(height: 16 * scale),
+                          Container(
+                            color: Colors.white,
+                            child: SizedBox(
+                              width: min(max(420, Get.width / 3), Get.width - 32),
+                              child: const ResultSection(),
+                            ),
+                          ),
+                          SizedBox(height: 16 * scale),
+                        ],
+                        // Botão para voltar à tela inicial (não faz parte da imagem compartilhada)
+                        Obx(() {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 16.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  ActionButton(
+                                    text: "VOLTAR À TELA INICIAL",
+                                    height: 51,
+                                    width: null,
+                                    onPressed: () {
+                                      Get.offAll(() => const HomePage());
+                                    },
+                                  ),
+                                  if (viewModel.resultType.value != null)...[
+                                    const SizedBox(width: 4),
+                                    SizedBox(
+                                      width: 51,
+                                      height: 51,
+                                      child: IconButton(
+                                        style: IconButton.styleFrom(
+                                          backgroundColor: AppColors.startButton,
+                                          foregroundColor: Colors.white,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(8),
+                                          ),
+                                        ),
+                                        onPressed: _share,
+                                        icon: const Icon(Icons.download),
+                                      ),
+                                    )
+                                  ]
+                                ],
+                              ),
+                            );
+                          }
+                        ),
+                      ],
                     ),
                   ),
-                  SizedBox(height: 16 * scale),
-                  Container(
-                    color: Colors.white,
-                    child: SizedBox(
-                      width: min(max(420, Get.width / 3), Get.width - 32),
-                      child: const ResultSection(),
-                    ),
-                  ),
-                  SizedBox(height: 16 * scale),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16.0),
-                    child: ActionButton(
-                      text: "VOLTAR À TELA INICIAL",
-                      height: 51,
-                      width: null,
-                      onPressed: () {
-                        Get.offAll(() => const HomePage());
-                      },
-                    ),
-                  ),
-                  SizedBox(height: 32 * scale),
-                  const Footer(),
-                ],
-              ),
+                ),
+                const Footer(),
+              ],
             ),
           ),
         ],
       ),
     );
+  }
+
+  /// Função que decide o método de compartilhamento com base na plataforma.
+  Future<void> _share() async {
+    if (kIsWeb) {
+      await downloadShareableContent(_shareKey);
+    }
+    // Em outras plataformas, implemente outra lógica se necessário.
+  }
+}
+
+/// Widget que reproduz o conteúdo compartilhável.
+/// Ele inclui a app bar e o conteúdo (Header, imagem do mascote e mensagem),
+/// disposto em um AspectRatio 16:9, sem a seção de resultados, footer e botão de voltar.
+class ShareableView extends StatelessWidget {
+  final ResultsViewModel viewModel;
+  const ShareableView({Key? key, required this.viewModel}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final double baseWidth = 410;
+    final double scale = Get.width / baseWidth;
+    return Material(
+      // Garante aparência de uma tela inteira
+      color: Colors.white,
+      child: AspectRatio(
+        aspectRatio: 9 / 16,
+        child: Column(
+          children: [
+            // Réplica da AppBar
+            Container(
+              height: kToolbarHeight,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.25),
+                    offset: const Offset(0, -1), // define o deslocamento da sombra
+                    blurRadius: 6, // define o blur da sombra
+                  ),
+                ],
+              ),
+              child: Image.asset(AppStrings.headerLogo),
+            ),
+            SizedBox(height: 16 * scale),
+            const HeaderSection(),
+            SizedBox(height: 16 * scale),
+            // Imagem do mascote conforme o ResultType
+            Obx(() {
+              return Image.asset(
+                viewModel.mascotImage,
+                height: max(Get.height / 3.5, Get.width / 4),
+                fit: BoxFit.fitHeight,
+              );
+            }),
+            SizedBox(height: 16 * scale),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: Get.width / 8),
+              child: Text(
+                "Parabéns por concluir o nosso quiz! 🎉\n"
+                    "Esperamos que você tenha se divertido e feito descobertas interessantes ao longo do caminho.",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: FontFamily.inter.name,
+                  fontSize: calculateFontSize(16),
+                  color: const Color(0xFF494C6B),
+                  height: 1.4,
+                ),
+              ),
+            ),
+            const Spacer(),
+            const Footer(),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Para Flutter Web: captura o conteúdo do RepaintBoundary e dispara o download da imagem PNG.
+Future<void> downloadShareableContent(GlobalKey key) async {
+  try {
+    final boundary =
+    key.currentContext!.findRenderObject() as RenderRepaintBoundary;
+    final ui.Image image = await boundary.toImage(pixelRatio: 3.0);
+    final ByteData? byteData =
+    await image.toByteData(format: ui.ImageByteFormat.png);
+    final Uint8List pngBytes = byteData!.buffer.asUint8List();
+
+    final blob = html.Blob([pngBytes]);
+    final url = html.Url.createObjectUrlFromBlob(blob);
+    final anchor = html.AnchorElement(href: url)
+      ..style.display = 'none'
+      ..download = 'resultado.png';
+    html.document.body!.append(anchor);
+    anchor.click();
+    anchor.remove();
+    html.Url.revokeObjectUrl(url);
+  } catch (e) {
+    print("Erro ao gerar imagem para download: $e");
   }
 }

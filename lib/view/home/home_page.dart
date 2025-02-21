@@ -38,13 +38,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.white,
-      appBar: AppBar(
-        backgroundColor: AppColors.white,
-        elevation: 0,
-        centerTitle: true,
-        leading: Container(),
-        title: Image.asset(AppStrings.headerLogo),
-      ),
+      appBar: appBar,
       body: const Column(
         children: [
           HeaderSection(),

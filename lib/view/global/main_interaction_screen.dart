@@ -42,13 +42,7 @@ class _MainInteractionScreenState extends State<MainInteractionScreen> with Widg
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.white,
-      appBar: AppBar(
-        backgroundColor: AppColors.white,
-        elevation: 0,
-        centerTitle: true,
-        title: Image.asset(AppStrings.headerLogo),
-        leading: Container(),
-      ),
+      appBar: appBar,
       body: Column(
         children: [
           SizedBox(height: Get.height * 48/(800 * 3)),
