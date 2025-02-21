@@ -81,7 +81,7 @@ class _ResultsPageState extends State<ResultsPage> with WidgetsBindingObserver {
                         Obx(() {
                           return Image.asset(
                             viewModel.mascotImage,
-                            height: max(Get.height / 3.5, Get.width / 4),
+                            height: max(Get.height / 3, Get.width / 3.5),
                             fit: BoxFit.fitHeight,
                           );
                         }),
@@ -94,7 +94,7 @@ class _ResultsPageState extends State<ResultsPage> with WidgetsBindingObserver {
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontFamily: FontFamily.inter.name,
-                              fontSize: calculateFontSize(16),
+                              fontSize: calculateFontSize(14),
                               color: const Color(0xFF494C6B),
                               height: 1.4,
                             ),
@@ -181,61 +181,55 @@ class ShareableView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double baseWidth = 410;
-    final double scale = Get.width / baseWidth;
     return Material(
       // Garante aparência de uma tela inteira
       color: Colors.white,
-      child: AspectRatio(
-        aspectRatio: 9 / 16,
-        child: Column(
-          children: [
-            // Réplica da AppBar
-            Container(
-              height: kToolbarHeight,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.25),
-                    offset: const Offset(0, -1), // define o deslocamento da sombra
-                    blurRadius: 6, // define o blur da sombra
-                  ),
-                ],
-              ),
-              child: Image.asset(AppStrings.headerLogo),
-            ),
-            SizedBox(height: 16 * scale),
-            const HeaderSection(),
-            SizedBox(height: 16 * scale),
-            // Imagem do mascote conforme o ResultType
-            Obx(() {
-              return Image.asset(
-                viewModel.mascotImage,
-                height: max(Get.height / 3.5, Get.width / 4),
-                fit: BoxFit.fitHeight,
-              );
-            }),
-            SizedBox(height: 16 * scale),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: Get.width / 8),
-              child: Text(
-                "Parabéns por concluir o nosso quiz! 🎉\n"
-                    "Esperamos que você tenha se divertido e feito descobertas interessantes ao longo do caminho.",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontFamily: FontFamily.inter.name,
-                  fontSize: calculateFontSize(16),
-                  color: const Color(0xFF494C6B),
-                  height: 1.4,
+      child: Column(
+        children: [
+          // Réplica da AppBar
+          Container(
+            height: kToolbarHeight,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.25),
+                  offset: const Offset(0, -1), // define o deslocamento da sombra
+                  blurRadius: 6, // define o blur da sombra
                 ),
+              ],
+            ),
+            child: Image.asset(AppStrings.headerLogo),
+          ),
+          const Spacer(flex: 2),
+          const HeaderSection(),
+          const Spacer(),
+          // Imagem do mascote conforme o ResultType
+          Obx(() {
+            return Image.asset(
+              viewModel.mascotImage,
+              height: max(Get.height / 3.5, Get.width / 4),
+              fit: BoxFit.fitHeight,
+            );
+          }),
+          const Spacer(),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: Get.width / 8),
+            child: Text(
+              "Parabéns por concluir o nosso quiz! 🎉\n"
+                  "Esperamos que você tenha se divertido e feito descobertas interessantes ao longo do caminho.",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontFamily: FontFamily.inter.name,
+                fontSize: calculateFontSize(14),
+                color: const Color(0xFF494C6B),
+                height: 1.4,
               ),
             ),
-            const Spacer(),
-            const Footer(),
-          ],
-        ),
+          ),
+          const Spacer(flex: 4),
+        ],
       ),
     );
   }
