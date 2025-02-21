@@ -287,7 +287,7 @@ class _QuestionsPageState extends State<QuestionsPage>
           flex: 15,
           child: Obx(() => QuestionsCarousel(
             length: viewModel.questions.length,
-            initialPage: lastAnswered,
+            initialPage: max(0, min(lastAnswered + 1, viewModel.questions.length - 1)),
             lastAnsweredIndex: lastAnswered,
             onSwipeForwardBlocked: () {
               if (viewModel.selectedAnswers[viewModel.currentQuestionIndex.value] == null) {
@@ -308,6 +308,15 @@ class _QuestionsPageState extends State<QuestionsPage>
                 height: 350,
                 fit: BoxFit.cover,
               );
+              Widget animatedImage = AnimatedSwitcher(
+                duration: const Duration(milliseconds: 500),
+                switchInCurve: Curves.easeIn,
+                switchOutCurve: Curves.easeOut,
+                transitionBuilder: (Widget child, Animation<double> animation) {
+                  return FadeTransition(opacity: animation, child: child);
+                },
+                child: imageWidget
+              );
               if (_animateIndex != null && index == _animateIndex) {
                 return AnimatedBuilder(
                   animation: _controller,
@@ -322,10 +331,10 @@ class _QuestionsPageState extends State<QuestionsPage>
                       child: child,
                     );
                   },
-                  child: imageWidget,
+                  child: animatedImage,
                 );
               }
-              return imageWidget;
+              return animatedImage;
             },
             onPageChanged: (index) => viewModel.onPageChanged(index),
           )),
