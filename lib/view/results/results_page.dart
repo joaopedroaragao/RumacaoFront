@@ -14,9 +14,7 @@ import 'package:rumacao_front/view/home/home_page.dart';
 import 'package:rumacao_front/view/results/header_section.dart';
 import 'package:rumacao_front/view/results/result_section.dart';
 import 'package:rumacao_front/viewmodel/results_view_model.dart';
-
-// IMPORTAÇÃO PARA WEB – OBS: Essa importação funciona apenas na web.
-import 'dart:html' as html;
+import 'package:rumacao_front/view/global/export_image.dart';
 
 class ResultsPage extends StatefulWidget {
   final String responseId;
@@ -100,18 +98,17 @@ class _ResultsPageState extends State<ResultsPage> with WidgetsBindingObserver {
                             ),
                           ),
                         ),
-                        // Exibe a seção de resultados se o resultado NÃO for inconclusivo
-                        if (viewModel.resultType.value != ResultType.INCONCLUSIVE) ...[
-                          SizedBox(height: 16 * scale),
-                          Container(
+                        Obx(() {
+                          final isInconclusive = viewModel.resultType.value == ResultType.INCONCLUSIVE;
+                          return Container(
+                            padding: EdgeInsets.symmetric(vertical: 16 * scale/(isInconclusive ? 2 : 1)),
                             color: Colors.white,
                             child: SizedBox(
                               width: min(max(420, Get.width / 3), Get.width - 32),
-                              child: const ResultSection(),
+                              child: isInconclusive ? const ResultSection() : null,
                             ),
-                          ),
-                          SizedBox(height: 16 * scale),
-                        ],
+                          );
+                        }),
                         // Botão para voltar à tela inicial (não faz parte da imagem compartilhada)
                         Obx(() {
                             return Padding(
@@ -165,10 +162,7 @@ class _ResultsPageState extends State<ResultsPage> with WidgetsBindingObserver {
 
   /// Função que decide o método de compartilhamento com base na plataforma.
   Future<void> _share() async {
-    if (kIsWeb) {
-      await downloadShareableContent(_shareKey);
-    }
-    // Em outras plataformas, implemente outra lógica se necessário.
+    await downloadShareableContent(_shareKey);
   }
 }
 
@@ -232,29 +226,5 @@ class ShareableView extends StatelessWidget {
         ],
       ),
     );
-  }
-}
-
-/// Para Flutter Web: captura o conteúdo do RepaintBoundary e dispara o download da imagem PNG.
-Future<void> downloadShareableContent(GlobalKey key) async {
-  try {
-    final boundary =
-    key.currentContext!.findRenderObject() as RenderRepaintBoundary;
-    final ui.Image image = await boundary.toImage(pixelRatio: 3.0);
-    final ByteData? byteData =
-    await image.toByteData(format: ui.ImageByteFormat.png);
-    final Uint8List pngBytes = byteData!.buffer.asUint8List();
-
-    final blob = html.Blob([pngBytes]);
-    final url = html.Url.createObjectUrlFromBlob(blob);
-    final anchor = html.AnchorElement(href: url)
-      ..style.display = 'none'
-      ..download = 'resultado.png';
-    html.document.body!.append(anchor);
-    anchor.click();
-    anchor.remove();
-    html.Url.revokeObjectUrl(url);
-  } catch (e) {
-    print("Erro ao gerar imagem para download: $e");
   }
 }

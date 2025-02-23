@@ -19,6 +19,8 @@ dependencies:
   carousel_slider: ^5.0.0
   shared_preferences: ^2.5.1
   http:
+  path_provider: ^2.1.5
+
 
 dependency_overrides:
   archive: ^4.0.2

@@ -3,8 +3,30 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rumacao_front/constants/app_constants.dart';
 
-class HeaderSection extends StatelessWidget {
+class HeaderSection extends StatefulWidget {
   const HeaderSection({super.key});
+
+  @override
+  State<HeaderSection> createState() => _HeaderSectionState();
+}
+
+class _HeaderSectionState extends State<HeaderSection> with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeMetrics() {
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,14 +48,19 @@ class HeaderSection extends StatelessWidget {
     final double ratio = minRatio + (maxRatio - minRatio) * (1 - normalized);
     final height = screenHeight / ratio - appBarHeight;
 
+    final aspectRatio = height / Get.width;
+    print(aspectRatio);
+
     return Container(
       width: double.infinity,
       color: Colors.grey.shade300,
       child: Center(
         child: Image.asset(
+          aspectRatio < 0.44
+              ? (aspectRatio > 0.35 ? AppStrings.rumaSplashExpandedWidth : AppStrings.rumaSplashExtendedWidth)
+              : AppStrings.rumaSplash,
           width: double.infinity,
-          AppStrings.rumaSplash,
-          height:  max(height, 125),
+          height: max(height, 125),
           fit: BoxFit.cover,
         ),
       ),

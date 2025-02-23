@@ -23,6 +23,12 @@ class ResultSection extends StatelessWidget {
     }
   }
 
+  double safeParse(String percentageString) {
+    double? value = double.tryParse(percentageString.replaceAll("%", ""));
+    if (value == null || value.isNaN) return 0;
+    return value;
+  }
+
   @override
   Widget build(BuildContext context) {
     final resultsVM = Get.find<ResultsViewModel>();
@@ -43,13 +49,13 @@ class ResultSection extends StatelessWidget {
         final score = resultsVM.scoreData.value!;
         final areas = score.areaPercentages; // do tipo AreaPercentages
 
-        // Converte as strings "xx.xx%" para double, ex.: "34.29%" -> 34.29
-        double ed = double.tryParse(areas.educacao.replaceAll("%", "")) ?? 0;
-        double cul = double.tryParse(areas.cultura.replaceAll("%", "")) ?? 0;
-        double ci = double.tryParse(areas.ciencia.replaceAll("%", "")) ?? 0;
+        // Converte as strings "xx.xx%" para double de forma segura.
+        double ed = safeParse(areas.educacao);
+        double cul = safeParse(areas.cultura);
+        double ci = safeParse(areas.ciencia);
 
         double maxValue = [ed, ci, cul].reduce(max);
-        bool allEqual = (ed == ci && ci == cul); // se todas são iguais, não preenche nenhuma
+        bool allEqual = (ed == ci && ci == cul);
 
         bool isEducacaoFilled = !allEqual && ed == maxValue;
         bool isCienciaFilled = !allEqual && ci == maxValue;
@@ -57,7 +63,7 @@ class ResultSection extends StatelessWidget {
 
         final total = ed + cul + ci;
         if (total == 0) {
-          return const Text("As porcentagens estão zeradas.");
+          return Container();
         }
 
         // Monta a lista de segmentos para o gráfico
@@ -106,7 +112,7 @@ class ResultSection extends StatelessWidget {
             for (var data in tileData)
               PercentageTile(
                 title: data.title,
-                height: 80 * Get.height/917,
+                height: 80 * Get.height / 917,
                 percentage: "${data.numericValue.round()}%",
                 color: data.color,
                 isFilled: data.isFilled,
