@@ -89,8 +89,7 @@ class ResultsViewModel extends GetxController {
       topAreas.addAll(_getTitles(sorted[0], maxValue, ed, cul, ci));
       resultType.value = ResultType.MAJOR;
     } else if (sorted[1] != sorted[2]) {
-      topAreas.addAll(_getTitles(sorted[0], sorted[0], ed, cul, ci));
-      topAreas.addAll(_getTitles(sorted[1], sorted[1], ed, cul, ci));
+      topAreas.addAll(_getTitles(sorted[1], maxValue, ed, cul, ci));
       resultType.value = ResultType.MIXED;
     } else {
       topAreas.add("Equilibrado");
