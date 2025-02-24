@@ -46,11 +46,16 @@ class Footer extends StatelessWidget {
             children: [
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 12.0 * scale),
-                child: Text(
-                  AppStrings.footerTitle,
-                  style: AppStyles.footerTitle.copyWith(
-                    // fontSize: AppStyles.footerTitle.fontSize! * scale,
-                  ),
+                // child: Text(
+                //   AppStrings.footerTitle,
+                //   style: AppStyles.footerTitle.copyWith(
+                //     // fontSize: AppStyles.footerTitle.fontSize! * scale,
+                //   ),
+                // ),
+                child: SvgPicture.asset(
+                  AppStrings.headerLogoWhiteSvg,
+                  height: 25 * scale,
+                  fit: BoxFit.fitHeight,
                 ),
               ),
               _socialLinks(scale),

@@ -42,6 +42,7 @@ class AppStrings {
 
   static const String headerLogo = "assets/images/logo_header.png";
   static const String headerLogoSvg = "assets/images/logo_header.svg";
+  static const String headerLogoWhiteSvg = "assets/images/logo_header_white.svg";
 
   static const String rumacaoIcon = "assets/images/rumacao_icon.png";
   static const String rumacaoIconSvg = "assets/images/rumacao_icon.svg";
