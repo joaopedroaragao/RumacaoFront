@@ -324,12 +324,12 @@ class _QuestionsPageState extends State<QuestionsPage>
                         child: child,
                       );
                     }
-                    if (_animation == _bounceAnimation) {
-                      return Transform.translate(
-                        offset: Offset(0, _bounceAnimation.value),
-                        child: child,
-                      );
-                    }
+                    // if (_animation == _bounceAnimation) {
+                    //   return Transform.translate(
+                    //     offset: Offset(0, _bounceAnimation.value),
+                    //     child: child,
+                    //   );
+                    // }
                     return child ?? Container();
                   },
                   child: imageWidget,
@@ -362,28 +362,35 @@ class _QuestionsPageState extends State<QuestionsPage>
                     selectedIndex: selectedIndex,
                     onSelected: (optionIndex) {
                       final option = answerOptions[optionIndex];
-                      if (viewModel.currentQuestionIndex.value == 0 &&
-                          viewModel.selectedAnswers[0] == null) {
-                        setState(() {
-                          _animateIndex = viewModel.currentQuestionIndex.value + 1;
-                          _animation = _bounceAnimation;
-                        });
-                      } else {
-                        setState(() {
-                          _animateIndex = viewModel.currentQuestionIndex.value;
-                          _animation = _expandAnimation;
-                        });
-                      }
+                      // if (viewModel.currentQuestionIndex.value == 0 &&
+                      //     viewModel.selectedAnswers[0] == null) {
+                      //   setState(() {
+                      //     _animateIndex = viewModel.currentQuestionIndex.value + 1;
+                      //     _animation = _bounceAnimation;
+                      //   });
+                      // } else {
+                      //   setState(() {
+                      //     _animateIndex = viewModel.currentQuestionIndex.value;
+                      //     _animation = _expandAnimation;
+                      //   });
+                      // }
+
+                      setState(() {
+                        _animateIndex = viewModel.currentQuestionIndex.value;
+                        _animation = _expandAnimation;
+                      });
+
                       _animationController.reset();
                       _animationController.forward();
+
                       Future.delayed(const Duration(milliseconds: 200), () {
                         _carouselController.animateToPage(
                             currentIndex + 1,
                             duration: const Duration(milliseconds: 700),
                             curve: Curves.easeIn
                         );
+                        viewModel.selectAnswer(option.id);
                       });
-                      viewModel.selectAnswer(option.id);
                     },
                   ),
                 ),
