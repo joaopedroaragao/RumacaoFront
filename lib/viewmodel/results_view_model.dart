@@ -85,10 +85,10 @@ class ResultsViewModel extends GetxController {
     if (totalScore != null && totalScore == 0) {
       topAreas.add("Inconclusivo :(");
       resultType.value = ResultType.INCONCLUSIVE;
-    } else if (sorted[0] > 50) {
+    } else if (sorted[0] != sorted[1]) {
       topAreas.addAll(_getTitles(sorted[0], maxValue, ed, cul, ci));
       resultType.value = ResultType.MAJOR;
-    } else if (diff >= 10 && diff <= 15) {
+    } else if (sorted[1] != sorted[2]) {
       topAreas.addAll(_getTitles(sorted[0], sorted[0], ed, cul, ci));
       topAreas.addAll(_getTitles(sorted[1], sorted[1], ed, cul, ci));
       resultType.value = ResultType.MIXED;
