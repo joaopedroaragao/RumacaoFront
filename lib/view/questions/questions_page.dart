@@ -32,6 +32,8 @@ class _QuestionsPageState extends State<QuestionsPage>
   int? _animateIndex; // Índice do item do carousel que deve animar
   late Animation<double> _animation = _bounceAnimation;
 
+  late bool imagesPreloaded = false;
+
   @override
   void initState() {
     super.initState();
@@ -366,13 +368,21 @@ class _QuestionsPageState extends State<QuestionsPage>
                           _animateIndex = viewModel.currentQuestionIndex.value + 1;
                           _animation = _bounceAnimation;
                         });
-                        _animationController.reset();
-                        _animationController.forward();
+                      } else {
+                        setState(() {
+                          _animateIndex = viewModel.currentQuestionIndex.value;
+                          _animation = _expandAnimation;
+                        });
                       }
-                      _carouselController.animateToPage(
-                        currentIndex + 1,
-                        duration: const Duration(milliseconds: 500)
-                      );
+                      _animationController.reset();
+                      _animationController.forward();
+                      Future.delayed(const Duration(milliseconds: 200), () {
+                        _carouselController.animateToPage(
+                            currentIndex + 1,
+                            duration: const Duration(milliseconds: 700),
+                            curve: Curves.easeIn
+                        );
+                      });
                       viewModel.selectAnswer(option.id);
                     },
                   ),
@@ -422,8 +432,16 @@ class _QuestionsPageState extends State<QuestionsPage>
     );
   }
 
+  _preloadImages() {
+    if (imagesPreloaded) return;
+    for (final image in images) {
+      Image.asset(image);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    _preloadImages();
     final QuestionViewModel viewModel = Get.put(QuestionViewModel());
     return Obx(() {
       bool blockInteractions = _animationController.isAnimating;
