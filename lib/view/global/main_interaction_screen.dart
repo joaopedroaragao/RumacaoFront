@@ -6,10 +6,12 @@ import 'package:rumacao_front/view/global/footer.dart';
 
 class MainInteractionScreen extends StatefulWidget {
   final String headerText;
+  final double reverseFlex;
   final List<Widget> items;
 
   const MainInteractionScreen({
     super.key,
+    this.reverseFlex = 2,
     required this.headerText,
     required this.items,
   });
@@ -45,7 +47,7 @@ class _MainInteractionScreenState extends State<MainInteractionScreen> with Widg
       appBar: appBar,
       body: Column(
         children: [
-          SizedBox(height: Get.height * 48/(800 * 2)),
+          SizedBox(height: Get.height * 48/(800 * widget.reverseFlex)),
           BaseInteractionScreenHeader(text: widget.headerText),
           ...widget.items,
           if (Get.height >= 650)

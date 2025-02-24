@@ -38,18 +38,18 @@ class _QuestionsPageState extends State<QuestionsPage>
 
     _animationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1000),
+      duration: const Duration(milliseconds: 800),
     );
 
     // TweenSequence para simular uma bola quicando com "pulsos" decrescentes.
     _bounceAnimation = TweenSequence<double>([
       TweenSequenceItem(
-        tween: Tween<double>(begin: 0, end: -60)
+        tween: Tween<double>(begin: 0, end: -45)
             .chain(CurveTween(curve: Curves.easeOut)),
         weight: 20,
       ),
       TweenSequenceItem(
-        tween: Tween<double>(begin: -60, end: 0)
+        tween: Tween<double>(begin: -45, end: 0)
             .chain(CurveTween(curve: Curves.easeIn)),
         weight: 20,
       ),
@@ -284,11 +284,10 @@ class _QuestionsPageState extends State<QuestionsPage>
 
     return Column(
       children: [
-        const Spacer(flex: 2),
-        Obx(() => _questionText(viewModel)),
         const Spacer(),
+        Obx(() => _questionText(viewModel)),
         Expanded(
-          flex: 15,
+          flex: 30,
           child: Obx(() => QuestionsCarousel(
             controller: _carouselController,
             length: viewModel.questions.length,
@@ -342,7 +341,7 @@ class _QuestionsPageState extends State<QuestionsPage>
         ),
         const Spacer(),
         Expanded(
-          flex: 6,
+          flex: 10,
           child: Obx(() {
             final currentIndex = viewModel.currentQuestionIndex.value;
             if (viewModel.questions.isEmpty) return Container();
