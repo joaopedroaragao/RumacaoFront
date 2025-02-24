@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'font_family.dart';
 import 'package:rumacao_front/constants/font_size.dart';
 
@@ -40,7 +41,11 @@ class AppStrings {
   static final MascoteImages mascoteImages = MascoteImages();
 
   static const String headerLogo = "assets/images/logo_header.png";
+  static const String headerLogoSvg = "assets/images/logo_header.svg";
+
   static const String rumacaoIcon = "assets/images/rumacao_icon.png";
+  static const String rumacaoIconSvg = "assets/images/rumacao_icon.svg";
+
   static const String footerLogo = "assets/images/logo_footer.png";
   static const String rumaSplash = "assets/images/ruma_splash.png";
   static const String rumaSplashExpandedWidth = "assets/images/ruma_splash_expanded_width.png";
@@ -50,10 +55,10 @@ class AppStrings {
   static const String description =
       'Descubra como você pode fazer a diferença em causas que inspiram e transformam o seu mundo!';
   static const String startButtonText = 'INICIAR';
-  static const String footerTitle = 'RUMACÃO';
+  static const String footerTitle = 'ARRUMACÃO';
   static const String instagramHandle = 'vemderuma';
   static const String email = 'vemderuma@gmail.com';
-  static const String appName = 'Rumação';
+  static const String appName = 'Arrumação';
   static const String confirmButtonText = 'Confirmar';
   static const String termsAndConditions = 'Termos e Condições';
   static const String privacyPolicy = 'Política de Privacidade';
@@ -142,7 +147,7 @@ class AppStyles {
   );
 
   static final TextStyle headerText = TextStyle(
-    fontSize: calculateFontSize(16),
+    fontSize: calculateFontSize(14),
     fontWeight: FontWeight.w600,
     fontFamily: FontFamily.inter.name,
   );
@@ -214,7 +219,7 @@ class AppStyles {
       percentageTitleStyle.copyWith(fontSize: calculateFontSize(14));
 }
 
-final appBar = PreferredSize(
+PreferredSizeWidget get appBar => PreferredSize(
   preferredSize: const Size.fromHeight(kToolbarHeight),
   child: Container(
     decoration: BoxDecoration(
@@ -230,7 +235,10 @@ final appBar = PreferredSize(
     child: AppBar(
       elevation: 0,
       backgroundColor: Colors.transparent,
-      title: Image.asset(AppStrings.headerLogo),
+      title: SvgPicture.asset(
+        AppStrings.headerLogoSvg,
+        height: kToolbarHeight / 2.25,
+      ),
       centerTitle: true,
       surfaceTintColor: Colors.transparent,
       leading: Container(),

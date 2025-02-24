@@ -49,7 +49,6 @@ class _HeaderSectionState extends State<HeaderSection> with WidgetsBindingObserv
     final height = screenHeight / ratio - appBarHeight;
 
     final aspectRatio = height / Get.width;
-    print(aspectRatio);
 
     return Container(
       width: double.infinity,

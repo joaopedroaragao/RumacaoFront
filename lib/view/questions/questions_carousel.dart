@@ -12,6 +12,7 @@ class QuestionsCarousel extends StatefulWidget {
   final int initialPage; // Índice inicial (currentIndex interno será gerenciado)
   final int lastAnsweredIndex; // Índice da última pergunta respondida (-1 se nenhuma foi respondida)
   final VoidCallback? onSwipeForwardBlocked; // Callback quando tentativa de avanço é detectada
+  final CarouselSliderController? controller;
 
   const QuestionsCarousel({
     super.key,
@@ -23,6 +24,7 @@ class QuestionsCarousel extends StatefulWidget {
     required this.initialPage,
     required this.lastAnsweredIndex,
     this.onSwipeForwardBlocked,
+    this.controller
   });
 
   @override
@@ -30,7 +32,7 @@ class QuestionsCarousel extends StatefulWidget {
 }
 
 class _QuestionsCarouselState extends State<QuestionsCarousel> {
-  final CarouselSliderController _carouselController = CarouselSliderController();
+  late final CarouselSliderController _carouselController = widget.controller ?? CarouselSliderController();
 
   int _currentIndex = 0; // Índice atual, gerenciado internamente
   int _startPage = 0; // Índice da página no início do gesto

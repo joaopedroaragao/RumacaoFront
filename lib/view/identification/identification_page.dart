@@ -95,7 +95,7 @@ class IdentificationPage extends StatelessWidget {
             ],
           ),
         ),
-        const Spacer(),
+        const Spacer(flex: 2),
         // Botão ou loading com altura proporcional
         Obx(() => viewModel.isLoading.value
             ? Center(

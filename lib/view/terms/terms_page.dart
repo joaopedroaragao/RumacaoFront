@@ -7,7 +7,7 @@ class TermsPage extends StatelessWidget {
 
   // Exemplo de texto fixo para os Termos e Condições
   static const String _termsText = '''
-Bem-vindo ao Rumação!
+Bem-vindo ao Arrumação!
 
 Estes Termos e Condições descrevem as regras e regulamentos para a utilização do nosso aplicativo. 
 Ao acessá-lo, você aceita e concorda em cumprir todos os termos descritos abaixo.
@@ -19,7 +19,7 @@ Ao acessá-lo, você aceita e concorda em cumprir todos os termos descritos abai
      qualquer parte do aplicativo sem permissão prévia por escrito.
 
 2. Responsabilidades
-   • O Rumação se reserva o direito de atualizar ou modificar o aplicativo a 
+   • O Arrumação se reserva o direito de atualizar ou modificar o aplicativo a 
      qualquer momento, sem aviso prévio.
    • Não garantimos que o aplicativo estará sempre disponível, livre de falhas 
      ou erros.
@@ -33,7 +33,7 @@ Ao acessá-lo, você aceita e concorda em cumprir todos os termos descritos abai
 
 Se você não concorda com qualquer parte destes Termos e Condições, não utilize o aplicativo.
 
-Obrigado por usar o Rumação!
+Obrigado por usar o Arrumação!
 ''';
 
   @override

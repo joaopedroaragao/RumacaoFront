@@ -45,10 +45,11 @@ class _MainInteractionScreenState extends State<MainInteractionScreen> with Widg
       appBar: appBar,
       body: Column(
         children: [
-          SizedBox(height: Get.height * 48/(800 * 3)),
+          SizedBox(height: Get.height * 48/(800 * 2)),
           BaseInteractionScreenHeader(text: widget.headerText),
           ...widget.items,
-          const Footer(),
+          if (Get.height >= 650)
+            const Footer(),
         ],
       ),
     );

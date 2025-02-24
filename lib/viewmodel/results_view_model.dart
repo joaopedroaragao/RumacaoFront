@@ -50,7 +50,7 @@ class ResultsViewModel extends GetxController {
         final data = ScoreData.fromJson(jsonMap);
         scoreData.value = data;
         await _computeQuizTitleAndResultType(data.areaPercentages);
-        // await clearUserData();
+        await clearUserData();
       } else {
         error.value = "Erro ao carregar o resultado: ${response.statusCode}";
       }

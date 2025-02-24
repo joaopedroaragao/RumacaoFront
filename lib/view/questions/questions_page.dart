@@ -1,5 +1,7 @@
 import 'dart:math';
+import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:rumacao_front/constants/app_constants.dart';
 import 'package:rumacao_front/constants/font_family.dart';
@@ -21,7 +23,9 @@ class QuestionsPage extends StatefulWidget {
 
 class _QuestionsPageState extends State<QuestionsPage>
     with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
+  late final CarouselSliderController _carouselController = CarouselSliderController();
+
+  late AnimationController _animationController;
   late Animation<double> _bounceAnimation;
   late Animation<double> _expandAnimation;
 
@@ -32,7 +36,7 @@ class _QuestionsPageState extends State<QuestionsPage>
   void initState() {
     super.initState();
 
-    _controller = AnimationController(
+    _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1000),
     );
@@ -79,7 +83,7 @@ class _QuestionsPageState extends State<QuestionsPage>
             .chain(CurveTween(curve: Curves.easeIn)),
         weight: 5,
       ),
-    ]).animate(_controller);
+    ]).animate(_animationController);
 
     _expandAnimation = TweenSequence<double>([
       TweenSequenceItem(
@@ -92,9 +96,9 @@ class _QuestionsPageState extends State<QuestionsPage>
             .chain(CurveTween(curve: Curves.easeIn)),
         weight: 20,
       ),
-    ]).animate(_controller);
+    ]).animate(_animationController);
 
-    _controller.addStatusListener((status) {
+    _animationController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         setState(() {
           _animateIndex = null;
@@ -213,8 +217,8 @@ class _QuestionsPageState extends State<QuestionsPage>
   }
 
   Widget _icon() {
-    return Image.asset(
-      AppStrings.rumacaoIcon,
+    return SvgPicture.asset(
+      AppStrings.rumacaoIconSvg,
       height: 86,
       width: 67,
     );
@@ -286,6 +290,7 @@ class _QuestionsPageState extends State<QuestionsPage>
         Expanded(
           flex: 15,
           child: Obx(() => QuestionsCarousel(
+            controller: _carouselController,
             length: viewModel.questions.length,
             initialPage: max(0, min(lastAnswered + 1, viewModel.questions.length - 1)),
             lastAnsweredIndex: lastAnswered,
@@ -295,8 +300,8 @@ class _QuestionsPageState extends State<QuestionsPage>
                   _animateIndex = viewModel.currentQuestionIndex.value;
                   _animation = _expandAnimation;
                 });
-                _controller.reset();
-                _controller.forward();
+                _animationController.reset();
+                _animationController.forward();
               }
             },
             itemBuilder: (context, index, realIndex) {
@@ -308,33 +313,28 @@ class _QuestionsPageState extends State<QuestionsPage>
                 height: 350,
                 fit: BoxFit.cover,
               );
-              Widget animatedImage = AnimatedSwitcher(
-                duration: const Duration(milliseconds: 500),
-                switchInCurve: Curves.easeIn,
-                switchOutCurve: Curves.easeOut,
-                transitionBuilder: (Widget child, Animation<double> animation) {
-                  return FadeTransition(opacity: animation, child: child);
-                },
-                child: imageWidget
-              );
               if (_animateIndex != null && index == _animateIndex) {
                 return AnimatedBuilder(
-                  animation: _controller,
+                  animation: _animationController,
                   builder: (context, child) {
-                    return _animation == _expandAnimation
-                        ? Transform.scale(
-                      scale: _expandAnimation.value,
-                      child: child,
-                    )
-                        : Transform.translate(
-                      offset: Offset(0, _bounceAnimation.value),
-                      child: child,
-                    );
+                    if (_animation == _expandAnimation) {
+                      return Transform.scale(
+                        scale: _expandAnimation.value,
+                        child: child,
+                      );
+                    }
+                    if (_animation == _bounceAnimation) {
+                      return Transform.translate(
+                        offset: Offset(0, _bounceAnimation.value),
+                        child: child,
+                      );
+                    }
+                    return child ?? Container();
                   },
-                  child: animatedImage,
+                  child: imageWidget,
                 );
               }
-              return animatedImage;
+              return imageWidget;
             },
             onPageChanged: (index) => viewModel.onPageChanged(index),
             onInstantlyPageChange: (index) => viewModel.onPageChanged(index),
@@ -367,9 +367,13 @@ class _QuestionsPageState extends State<QuestionsPage>
                           _animateIndex = viewModel.currentQuestionIndex.value + 1;
                           _animation = _bounceAnimation;
                         });
-                        _controller.reset();
-                        _controller.forward();
+                        _animationController.reset();
+                        _animationController.forward();
                       }
+                      _carouselController.animateToPage(
+                        currentIndex + 1,
+                        duration: const Duration(milliseconds: 500)
+                      );
                       viewModel.selectAnswer(option.id);
                     },
                   ),
@@ -423,7 +427,7 @@ class _QuestionsPageState extends State<QuestionsPage>
   Widget build(BuildContext context) {
     final QuestionViewModel viewModel = Get.put(QuestionViewModel());
     return Obx(() {
-      bool blockInteractions = _controller.isAnimating;
+      bool blockInteractions = _animationController.isAnimating;
       return Stack(
         children: [
           Scaffold(
@@ -467,7 +471,7 @@ class _QuestionsPageState extends State<QuestionsPage>
 
   @override
   void dispose() {
-    _controller.dispose();
+    _animationController.dispose();
     super.dispose();
   }
 }

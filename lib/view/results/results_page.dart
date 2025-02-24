@@ -101,11 +101,11 @@ class _ResultsPageState extends State<ResultsPage> with WidgetsBindingObserver {
                         Obx(() {
                           final isInconclusive = viewModel.resultType.value == ResultType.INCONCLUSIVE;
                           return Container(
-                            padding: EdgeInsets.symmetric(vertical: 16 * scale/(isInconclusive ? 2 : 1)),
+                            padding: EdgeInsets.symmetric(vertical: 16 * scale/(isInconclusive ? 1 : 2)),
                             color: Colors.white,
                             child: SizedBox(
                               width: min(max(420, Get.width / 3), Get.width - 32),
-                              child: isInconclusive ? const ResultSection() : null,
+                              child: isInconclusive ? null : const ResultSection(),
                             ),
                           );
                         }),
