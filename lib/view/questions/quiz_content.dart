@@ -52,6 +52,9 @@ class _QuizContentState extends State<QuizContent> {
 
   @override
   void initState() {
+    ever(widget.viewModel.selectedAnswers, (_) {
+      widget.carouselController.nextPage();
+    });
     super.initState();
   }
 
@@ -83,16 +86,13 @@ class _QuizContentState extends State<QuizContent> {
     int lastAnswered = widget.viewModel.selectedAnswers.isEmpty
         ? -1
         : widget.viewModel.selectedAnswers.keys.reduce(max);
-    lastCurrentIndex ??= lastAnswered;
     return Column(
       children: [
         const Spacer(),
         Obx(() => _questionText()),
-        // widget.carouselController.nextPage();
         Expanded(
           flex: 30,
           child: Obx(() {
-            // las
             return QuestionsCarousel(
               controller: widget.carouselController,
               length: widget.viewModel.questions.length,
