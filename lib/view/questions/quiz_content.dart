@@ -150,7 +150,7 @@ class _QuizContentState extends State<QuizContent> {
                   child: OptionSelector(
                     options:
                     widget.answerOptions.map(buildOptionButton).toList(),
-                    selectedIndex: selectedIndex,
+                    selectedIndex: widget.viewModel.preselected.value ?? selectedIndex,
                     onSelected: (optionIndex) {
                       final option = widget.answerOptions[optionIndex];
                       widget.viewModel.preSelectAnswer(option.id);
