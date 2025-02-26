@@ -28,7 +28,7 @@ class Footer extends StatelessWidget {
       decoration: BoxDecoration(
         image: const DecorationImage(
           fit: BoxFit.cover,
-          image: AssetImage(AppStrings.footerTexture)
+          image: AssetImage(AppImages.footerTexture)
         ),
         boxShadow: [
           BoxShadow(
@@ -53,7 +53,7 @@ class Footer extends StatelessWidget {
                 //   ),
                 // ),
                 child: SvgPicture.asset(
-                  AppStrings.headerLogoWhiteSvg,
+                  AppImages.headerLogoWhiteSvg,
                   height: 25 * scale,
                   fit: BoxFit.fitHeight,
                 ),
@@ -66,7 +66,7 @@ class Footer extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SvgPicture.asset(
-                AppStrings.caroaTechLogoSvg,
+                AppImages.caroaTechLogoSvg,
                 height: 25 * scale,
                 fit: BoxFit.fitHeight,
               ),
@@ -103,14 +103,14 @@ class Footer extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           _socialLink(
-            iconPath: AppStrings.instagramIcon,
+            iconPath: AppImages.instagramIcon,
             text: AppStrings.instagramHandle,
             url: 'https://instagram.com/${AppStrings.instagramHandle}',
             verticalSpacing: 8 * scale,
           ),
           SizedBox(height: 8 * scale),
           _socialLink(
-            iconPath: AppStrings.emailIcon,
+            iconPath: AppImages.emailIcon,
             text: AppStrings.email,
             verticalSpacing: 8 * scale,
           ),

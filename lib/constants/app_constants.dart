@@ -37,7 +37,7 @@ class MascoteImages {
   final String equivalent = "assets/images/mascote/results/equivalent.png";
 }
 
-class AppStrings {
+class AppImages {
   static final MascoteImages mascoteImages = MascoteImages();
 
   static const String headerLogo = "assets/images/logo_header.png";
@@ -56,6 +56,17 @@ class AppStrings {
   static const String footerTexture = 'assets/images/footer_texture.png';
   static const String instagramIcon = "assets/images/instagram_icon.svg";
   static const String emailIcon = "assets/images/email_icon.svg";
+}
+
+class AppAnimations {
+  static const String neutral = "assets/animations/neutral.json";
+  static const String partiallyAgree = "assets/animations/partially_agree.json";
+  static const String partiallyDisagree = "assets/animations/partially_disagree.json";
+  static const String totallyAgree = "assets/animations/totally_agree.json";
+  static const String totallyDisagree = "assets/animations/totally_disagree.json";
+}
+
+class AppStrings {
   static const String description =
       'Descubra como você pode fazer a diferença em causas que inspiram e transformam o seu mundo!';
   static const String startButtonText = 'INICIAR';
@@ -240,7 +251,7 @@ PreferredSizeWidget get appBar => PreferredSize(
       elevation: 0,
       backgroundColor: Colors.transparent,
       title: SvgPicture.asset(
-        AppStrings.headerLogoSvg,
+        AppImages.headerLogoSvg,
         height: kToolbarHeight / 2.25,
       ),
       centerTitle: true,

@@ -29,6 +29,8 @@ class QuestionViewModel extends GetxController {
   /// Flag para bloquear a tela enquanto submete as respostas.
   var isSubmittingResponses = false.obs;
 
+  var preselected = Rx<int?>(null);
+
   @override
   void onInit() {
     super.onInit();
@@ -132,13 +134,20 @@ class QuestionViewModel extends GetxController {
 
   /// Atualiza o índice da pergunta atual conforme a visibilidade.
   void onPageChanged(int index) {
+    preselected.value = null;
     if (currentQuestionIndex.value != index) {
       currentQuestionIndex.value = index;
     }
   }
 
+  void preSelectAnswer(int answerId) {
+    preselected.value = answerId;
+    preselected.refresh();
+  }
+
   /// Salva a resposta (score) selecionada para a pergunta atual e atualiza o cache.
   void selectAnswer(int answerId) {
+    preselected.value = null;
     selectedAnswers[currentQuestionIndex.value] = answerId;
     selectedAnswers.refresh();
     _saveAnswers();

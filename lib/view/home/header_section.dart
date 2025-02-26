@@ -56,8 +56,8 @@ class _HeaderSectionState extends State<HeaderSection> with WidgetsBindingObserv
       child: Center(
         child: Image.asset(
           aspectRatio < 0.44
-              ? (aspectRatio > 0.35 ? AppStrings.rumaSplashExpandedWidth : AppStrings.rumaSplashExtendedWidth)
-              : AppStrings.rumaSplash,
+              ? (aspectRatio > 0.35 ? AppImages.rumaSplashExpandedWidth : AppImages.rumaSplashExtendedWidth)
+              : AppImages.rumaSplash,
           width: double.infinity,
           height: max(height, 125),
           fit: BoxFit.cover,

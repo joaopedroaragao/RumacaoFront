@@ -21,6 +21,7 @@ dependencies:
   http:
   path_provider: ^2.1.5
   firebase_core: ^3.12.1
+  lottie: ^3.2.0
 
 
 dependency_overrides:
@@ -37,6 +38,7 @@ flutter:
 
   assets:
     - assets/
+    - assets/animations/
     - assets/images/
     - assets/images/mascote/neutral/
     - assets/images/mascote/partially_agree/

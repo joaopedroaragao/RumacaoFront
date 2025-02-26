@@ -194,7 +194,7 @@ class ShareableView extends StatelessWidget {
                 ),
               ],
             ),
-            child: Image.asset(AppStrings.headerLogo),
+            child: Image.asset(AppImages.headerLogo),
           ),
           const Spacer(flex: 2),
           const HeaderSection(),

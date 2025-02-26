@@ -110,23 +110,23 @@ class ResultsViewModel extends GetxController {
   /// Propriedade computada para retornar a imagem do mascote com base no ResultType.
   String get mascotImage {
     if (resultType.value == ResultType.INCONCLUSIVE) {
-      return AppStrings.mascoteImages.totallyDisagree3;
+      return AppImages.mascoteImages.totallyDisagree3;
     } else if (resultType.value == ResultType.MAJOR) {
       // Para MAJOR, utiliza a área de maior porcentagem.
       if (orderedAreas.isNotEmpty) {
         final topArea = orderedAreas.first.key;
         switch (topArea) {
           case "Educação":
-            return AppStrings.mascoteImages.majorEd;
+            return AppImages.mascoteImages.majorEd;
           case "Cultura":
-            return AppStrings.mascoteImages.majorCul;
+            return AppImages.mascoteImages.majorCul;
           case "Ciência":
-            return AppStrings.mascoteImages.majorCi;
+            return AppImages.mascoteImages.majorCi;
           default:
-            return AppStrings.mascoteImages.neutral1;
+            return AppImages.mascoteImages.neutral1;
         }
       }
-      return AppStrings.mascoteImages.neutral1;
+      return AppImages.mascoteImages.neutral1;
     } else if (resultType.value == ResultType.MIXED) {
       // Para MIXED, utiliza as duas áreas de maior porcentagem.
       if (orderedAreas.length >= 2) {
@@ -134,20 +134,20 @@ class ResultsViewModel extends GetxController {
         final second = orderedAreas[1].key;
         if ((first == "Ciência" && second == "Cultura") ||
             (first == "Cultura" && second == "Ciência")) {
-          return AppStrings.mascoteImages.mixedCiCul;
+          return AppImages.mascoteImages.mixedCiCul;
         } else if ((first == "Ciência" && second == "Educação") ||
             (first == "Educação" && second == "Ciência")) {
-          return AppStrings.mascoteImages.mixedCiEd;
+          return AppImages.mascoteImages.mixedCiEd;
         } else if ((first == "Cultura" && second == "Educação") ||
             (first == "Educação" && second == "Cultura")) {
-          return AppStrings.mascoteImages.mixedCulEd;
+          return AppImages.mascoteImages.mixedCulEd;
         }
       }
-      return AppStrings.mascoteImages.neutral1;
+      return AppImages.mascoteImages.neutral1;
     } else if (resultType.value == ResultType.EQUIVALENT) {
-      return AppStrings.mascoteImages.equivalent;
+      return AppImages.mascoteImages.equivalent;
     } else {
-      return AppStrings.mascoteImages.neutral1;
+      return AppImages.mascoteImages.neutral1;
     }
   }
 
