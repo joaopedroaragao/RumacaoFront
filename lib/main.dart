@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
         fontFamily: "Inter",
         useMaterial3: true,
       ),
-      home: const QuestionsPage() //const HomePage(),
+      home: const HomePage(),
     );
   }
 }
